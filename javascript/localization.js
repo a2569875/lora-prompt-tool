@@ -109,6 +109,18 @@ function module_init() {
         "Chinese Traditional" : {
             "zh_TW": "繁體中文"
         },
+        "add model using suggested setting" : {
+            "zh_TW": "使用建議的模型設定"
+        },
+        "Use suggested weight" : {
+            "zh_TW": "使用建議的權重"
+        },
+        "Use suggested params" : {
+            "zh_TW": "使用建議的模型參數"
+        },
+        "Use suggested weight and params" : {
+            "zh_TW": "使用建議的權重和模型參數"
+        },
     };
     
     lorahelper.localizationPromise = new Promise((resolve, reject) => {

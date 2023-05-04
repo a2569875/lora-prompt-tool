@@ -120,6 +120,9 @@ my_localization_data = {
     },
     "Force touch mode" : {
         "zh_TW": "使用觸控模式"
+    },
+    "Model params" : {
+        "zh_TW": "模型參數"
     }
 }
 

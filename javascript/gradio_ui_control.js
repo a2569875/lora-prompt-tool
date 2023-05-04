@@ -151,9 +151,9 @@ function module_init() {
         const currentTab = get_uiCurrentTabContent();
         switch (currentTab.id) {
             case "tab_txt2img":
-                return currentTab.querySelector("#txt2img_prompt textarea");
+                return lorahelper.txt2img_prompt;
             case "tab_img2img":
-                return currentTab.querySelector("#img2img_prompt textarea");
+                return lorahelper.img2img_prompt;
         }
         return null;
     }
@@ -162,9 +162,9 @@ function module_init() {
         const currentTab = get_uiCurrentTabContent();
         switch (currentTab.id) {
             case "tab_txt2img":
-                return currentTab.querySelector("#txt2img_neg_prompt textarea");
+                return lorahelper.neg_txt2img_prompt;
             case "tab_img2img":
-                return currentTab.querySelector("#img2img_neg_prompt textarea");
+                return lorahelper.neg_img2img_prompt;
         }
         return null;
     }

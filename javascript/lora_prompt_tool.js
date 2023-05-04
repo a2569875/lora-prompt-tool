@@ -30,6 +30,21 @@ onUiLoaded(() => {
     lorahelper.setup_context_menu();
     lorahelper.setup_dataframe_edit();
 
+    lorahelper.txt2img_prompt = lorahelper.gradioApp().querySelector("#txt2img_prompt textarea");
+    lorahelper.img2img_prompt = lorahelper.gradioApp().querySelector("#img2img_prompt textarea");
+    lorahelper.neg_txt2img_prompt = lorahelper.gradioApp().querySelector("#txt2img_neg_prompt textarea");
+    lorahelper.neg_img2img_prompt = lorahelper.gradioApp().querySelector("#img2img_neg_prompt textarea");
+
+    ace_txt2img_prompt = lorahelper.gradioApp().querySelector("#ace-txt2img_prompt");
+    ace_img2img_prompt = lorahelper.gradioApp().querySelector("#ace-img2img_prompt");
+    ace_txt2img_neg_prompt = lorahelper.gradioApp().querySelector("#ace-txt2img_neg_prompt");
+    ace_img2img_neg_prompt = lorahelper.gradioApp().querySelector("#ace-img2img_neg_prompt");
+
+    if(!lorahelper.is_nullptr(ace_txt2img_prompt)) lorahelper.txt2img_prompt = ace_txt2img_prompt;
+    if(!lorahelper.is_nullptr(ace_img2img_prompt)) lorahelper.img2img_prompt = ace_img2img_prompt;
+    if(!lorahelper.is_nullptr(ace_txt2img_neg_prompt)) lorahelper.neg_txt2img_prompt = ace_txt2img_neg_prompt;
+    if(!lorahelper.is_nullptr(ace_img2img_neg_prompt)) lorahelper.neg_img2img_prompt = ace_img2img_neg_prompt;
+
     //preview image size handler
     lorahelper.lorahelper_model_image = lorahelper.gradioApp().getElementById("lorahelp_js_image_area");
     let parent_iter = lorahelper.lorahelper_model_image.parentElement
@@ -130,7 +145,9 @@ onUiLoaded(() => {
         let extra_network_id = "";
         let extra_network_node = null;
         let model_path_node = null;
+        let model_name_node = null;
         let model_path = "";
+        let model_name = "";
         let model_type = "";
         let cards = null;
 
@@ -233,18 +250,28 @@ onUiLoaded(() => {
                         continue;
                     }
 
+                    model_name_node = card.querySelector(".actions .name");
+                    if (!model_name_node){
+                        lorahelper.debug("can not find name node for cards in " + extra_network_id);
+                    }
+
                     // get model_path
                     model_path = model_path_node.innerHTML;
                     if (!model_path) {
                         lorahelper.debug("model_path is empty for cards in " + extra_network_id);
                         continue;
                     }
+                    model_name = model_name_node.innerHTML;
+                    if (!model_name) {
+                        lorahelper.debug("model_name is empty for cards in " + extra_network_id);
+                        model_name = "";
+                    }
                     model_path = model_path.replace(/(\.(bin|pt|safetensors|ckpt))(\s+)?([a-z0-9]+)?$/i, "$1");
                     let bgimg = card.style.backgroundImage || "url(\"./file=html/card-no-preview.png\")";
                     bgimg = bgimg.replace(/^\s*url\s*\(\s*\"/i, "lorahelper.pass_url(\"");
 
                     card.setAttribute("oncontextmenu",
-                        `lorahelper.show_trigger_words(event, '${model_type}', '${model_path}', ${bgimg}, '${active_tab_type}')`
+                        `lorahelper.show_trigger_words(event, '${model_type}', '${model_path}', '${model_name}', ${bgimg}, '${active_tab_type}')`
                     );
                     let touch_icon = card.querySelector(".lorahelp-touch-icon");
                     if(lorahelper.is_nullptr(touch_icon)){
@@ -257,10 +284,10 @@ onUiLoaded(() => {
                     let icon_label = touch_icon.querySelector("span");
                     icon_label.innerHTML = "...";
                     touch_icon.setAttribute("onclick",
-                        `lorahelper.show_trigger_words(event, '${model_type}', '${model_path}', ${bgimg}, '${active_tab_type}')`
+                        `lorahelper.show_trigger_words(event, '${model_type}', '${model_path}', '${model_name}', ${bgimg}, '${active_tab_type}')`
                     );
                     touch_icon.setAttribute("ontouchstart",
-                        `lorahelper.show_trigger_words(event, '${model_type}', '${model_path}', ${bgimg}, '${active_tab_type}')`
+                        `lorahelper.show_trigger_words(event, '${model_type}', '${model_path}', '${model_name}', ${bgimg}, '${active_tab_type}')`
                     );
                     if(lorahelper.isTouchDevice() || lorahelper.settings.touch_mode()){
                         touch_icon.style.display = "block";

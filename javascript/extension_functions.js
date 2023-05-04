@@ -2,7 +2,7 @@
 
 function module_init() {
     console.log("[lora-prompt-tool] load extension functions module");
-    function show_trigger_words(event, model_type, model_path, bgimg, active_tab_type){
+    function show_trigger_words(event, model_type, model_path, model_name, bgimg, active_tab_type){
         lorahelper.debug("start show_trigger_words");
     
         //get hidden components of extension 
@@ -78,6 +78,46 @@ function module_init() {
                             }
                         }
                         let options_count = 0;
+                        if(!lorahelper.is_nullptr(data.weight) || !lorahelper.is_nullptr(data.params)){
+                            let select_list = [];
+                            if(!lorahelper.is_empty(data.weight)){
+                                let syntax = lorahelper.build_hyper_cmd(model_type,model_name,data.weight,"");
+                                if(!lorahelper.is_empty(syntax)){
+                                    let select_btn = lorahelper.create_context_menu_button(lorahelper.get_UI_display("Use suggested weight"));
+                                
+                                    select_btn.setAttribute("onclick",
+                                            `lorahelper.add_selected_trigger_word(event, '${model_type}', '${model_path}', '${lorahelper.build_hyper_cmd(model_type,model_name,data.weight,"")}', '${active_tab_type}')`
+                                    );
+                                    select_list.push(select_btn);
+                                }
+                            }
+                            if(!lorahelper.is_empty(data.params)){
+                                let syntax = lorahelper.build_hyper_cmd(model_type,model_name,1.0,data.params);
+                                if(!lorahelper.is_empty(syntax)){
+                                    let select_btn = lorahelper.create_context_menu_button(lorahelper.get_UI_display("Use suggested params"));
+                                
+                                    select_btn.setAttribute("onclick",
+                                            `lorahelper.add_selected_trigger_word(event, '${model_type}', '${model_path}', '${lorahelper.build_hyper_cmd(model_type,model_name,1.0,data.params)}', '${active_tab_type}')`
+                                    );
+                                    select_list.push(select_btn);
+                                }
+                            }
+                            if(!lorahelper.is_empty(data.params) && !lorahelper.is_empty(data.weight)){
+                                let syntax = lorahelper.build_hyper_cmd(model_type,model_name,data.weight,data.params);
+                                if(!lorahelper.is_empty(syntax)){
+                                    let select_btn = lorahelper.create_context_menu_button(lorahelper.get_UI_display("Use suggested weight and params"));
+                                    select_btn.setAttribute("onclick",
+                                            `lorahelper.add_selected_trigger_word(event, '${model_type}', '${model_path}', '${lorahelper.build_hyper_cmd(model_type,model_name,data.weight,data.params)}', '${active_tab_type}')`
+                                    );
+                                    select_list.push(select_btn);
+                                }
+                            }
+                            if(select_list.length > 0){
+                                let sub_menu = lorahelper.create_context_subset(lorahelper.get_UI_display("add model using suggested setting"), select_list);
+                                lorahelper.lorahelper_context_menu_opt.appendChild(sub_menu);
+                                ++options_count;
+                            }
+                        }
                         if(!lorahelper.is_nullptr(data.images)){
                             if(data.images.length > 0){
                                 let image_list = [];
@@ -252,8 +292,8 @@ function module_init() {
             return;
         }
     
-        let txt2img_prompt = lorahelper.gradioApp().querySelector("#txt2img_prompt textarea");
-        let img2img_prompt = lorahelper.gradioApp().querySelector("#img2img_prompt textarea");
+        let txt2img_prompt = lorahelper.txt2img_prompt;
+        let img2img_prompt = lorahelper.img2img_prompt;
     
         let param = {
             "action": "add_selected_trigger_word",
@@ -286,8 +326,8 @@ function module_init() {
             return;
         }
     
-        let txt2img_prompt = lorahelper.gradioApp().querySelector("#txt2img_neg_prompt textarea");
-        let img2img_prompt = lorahelper.gradioApp().querySelector("#img2img_neg_prompt textarea");
+        let txt2img_prompt = lorahelper.neg_txt2img_prompt;
+        let img2img_prompt = lorahelper.neg_img2img_prompt;
     
         let param = {
             "action": "add_selected_trigger_word",

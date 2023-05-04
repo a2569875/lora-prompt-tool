@@ -59,6 +59,27 @@ function module_init() {
         return url_name;
     }
     
+    function build_hyper_cmd(mode, model, weight, param){
+        let par_str = param.trim();
+        if(par_str.charAt(0) !== ':' && par_str !== ""){
+            par_str = ":" + par_str;
+        }
+        switch (mode) {
+            case "ti":
+                if(Math.abs(parseFloat(weight) - 1) > 1e-8)
+                    return `(${model}:${weight})`;
+                return model;
+            case "hyper":
+                return `<hypernet:${model}:${weight}${par_str}>`;
+            case "ckp":
+                return;
+            case "lora":
+            case "lyco":
+            default:
+                return `<${mode}:${model}:${weight}${par_str}>`;
+        }
+    }
+
     function unescape_string(input_string){
         let result = '';
         const unicode_list = ['u','x'];
@@ -265,6 +286,7 @@ function module_init() {
     lorahelper.isTouchDevice = isTouchDevice;
     lorahelper.sendontop = sendontop;
     lorahelper.resetElementLayer = resetElementLayer;
+    lorahelper.build_hyper_cmd = build_hyper_cmd;
 }
 let module_loadded = false;
 document.addEventListener("DOMContentLoaded", () => {

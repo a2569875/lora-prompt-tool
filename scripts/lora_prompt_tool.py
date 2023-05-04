@@ -41,6 +41,7 @@ def on_ui_tabs():
                         gr.HTML(f"<div id=\"lorahelp_js_image_area\">{localization.get_localize('You DID NOT load any model!')}</div>")
                     with gr.Row():
                         js_suggested_weight = gr.Textbox(label=localization.get_localize("Suggested weight"), interactive=True)
+                        js_model_params = gr.Textbox(label=localization.get_localize("Model params"), interactive=True)
             with gr.Box(elem_classes="lorahelp_box"):
                 #提詞編輯區
                 with gr.Column():
@@ -158,18 +159,18 @@ def on_ui_tabs():
         dataedit_paste_event.click(dataframe_edit.paste_cell, inputs=[js_dataedit_select_index, js_copy_paste_box, js_dataedit], outputs=[js_dataedit])
         dataedit_paste_append_event.click(dataframe_edit.paste_merge_cell, inputs=[js_dataedit_select_index, js_copy_paste_box, js_dataedit], outputs=[js_dataedit])
         dataedit_refresh_event.click(ajax_action.reload_trigger_words, inputs=[js_model_type, js_model_path], 
-            outputs=[js_model_type, js_subtype, js_model_name, js_model_path, js_suggested_weight, js_dataedit, json_ajax_txtbox, js_json_preview])
-        json_refresh_event.click(ajax_action.update_trigger_words_json, inputs=[js_subtype, js_model_name, js_model_path, js_suggested_weight, js_dataedit, json_ajax_txtbox], 
+            outputs=[js_model_type, js_subtype, js_model_name, js_model_path, js_suggested_weight, js_model_params, js_dataedit, json_ajax_txtbox, js_json_preview])
+        json_refresh_event.click(ajax_action.update_trigger_words_json, inputs=[js_subtype, js_model_name, js_model_path, js_suggested_weight, js_model_params, js_dataedit, json_ajax_txtbox], 
             outputs=[js_json_preview])
 
 
         js_save_model_setting_btn.click(ajax_action.save_trigger_words, 
-            inputs=[js_model_type, js_subtype, js_model_name, js_model_path, js_suggested_weight, js_dataedit, json_ajax_txtbox], 
+            inputs=[js_model_type, js_subtype, js_model_name, js_model_path, js_suggested_weight, js_model_params, js_dataedit, json_ajax_txtbox], 
             outputs=[js_message_report]
         )
         js_load_civitai_setting_btn.click(ajax_action.get_setting_from_Civitai, 
-            inputs=[js_model_type, js_subtype, js_model_name, js_model_path, js_suggested_weight, js_dataedit, json_ajax_txtbox], 
-            outputs=[js_message_report, js_model_type, js_subtype, js_model_name, js_model_path, js_suggested_weight, js_dataedit, json_ajax_txtbox, js_json_preview]
+            inputs=[js_model_type, js_subtype, js_model_name, js_model_path, js_suggested_weight, js_model_params, js_dataedit, json_ajax_txtbox], 
+            outputs=[js_message_report, js_model_type, js_subtype, js_model_name, js_model_path, js_suggested_weight, js_model_params, js_dataedit, json_ajax_txtbox, js_json_preview]
         )
         js_load_dreambooth_setting_btn.click(ajax_action.get_setting_from_dreambooth, 
             inputs=[js_db_model_name, js_dataedit], 
@@ -207,7 +208,7 @@ def on_ui_tabs():
         js_update_trigger_words_btn = gr.Button(value="Update Trigger Words", visible=False, elem_id="lorahelp_js_update_trigger_words_btn")
         js_update_trigger_words_btn.click(ajax_action.update_trigger_words, 
             inputs=[js_ajax_txtbox], 
-            outputs=[js_model_type, js_subtype, js_model_name, js_model_path, js_suggested_weight, js_dataedit, json_ajax_txtbox, js_json_preview]
+            outputs=[js_model_type, js_subtype, js_model_name, js_model_path, js_suggested_weight, js_model_params, js_dataedit, json_ajax_txtbox, js_json_preview]
         )
 
         js_show_trigger_words_btn = gr.Button(value="Show Trigger Words", visible=False, elem_id="lorahelp_js_show_trigger_words_btn")
