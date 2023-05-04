@@ -1,0 +1,39 @@
+.lora-context-menu {
+    position: fixed;
+    z-index: 10000;
+    background: #1b1a1a;
+    border-radius: 5px;
+    transform: scale(0);
+    transform-origin: top left;
+}
+
+.lora-context-menu.visible {
+    transform: scale(1);
+    transition: transform 200ms ease-in-out;
+}
+
+.lora-context-menu .item {
+    padding: 8px 10px;
+    font-size: 15px;
+    color: #eee;
+    cursor: pointer;
+    border-radius: inherit;
+}
+
+.lora-context-menu .hritem {
+    color: #eee;
+    border-radius: inherit;
+}
+
+.lora-context-menu .item:hover {
+    background: #343434;
+}
+
+.lorahelp-touch-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: rgba(0,0,0,0.5);
+    padding: 0 6px 0 6px;
+    color: white;
+}
