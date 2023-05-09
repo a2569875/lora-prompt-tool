@@ -29,3 +29,9 @@ After extracting the extension, copy the "lora-prompt-tool" folder to "\webui\ex
   - Import from Civitai
   - Import from Dreambooth models
   - Import multiple lines of text
+
+  ## Acknowledgements
+*  [JackEllie's Stable-Siffusion community team](https://discord.gg/TM5d89YNwA) 、 [Youtube channel](https://www.youtube.com/@JackEllie)
+*  [Chinese Wikipedia community team](https://discord.gg/77n7vnu)
+
+<p align="center"><img src="https://count.getloli.com/get/@sd-webui-lora-prompt-tool.github" alt="sd-webui-lora-prompt-tool"></p>

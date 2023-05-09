@@ -31,3 +31,9 @@
   - 文字多行匯入
 
 * ~~緒山真尋!~~
+
+## Acknowledgements
+*  [JackEllie的Stable-Siffusion的社群團隊](https://discord.gg/TM5d89YNwA) 、 [Youtube頻道](https://www.youtube.com/@JackEllie)
+*  [中文維基百科的社群團隊](https://discord.gg/77n7vnu)
+
+<p align="center"><img src="https://count.getloli.com/get/@sd-webui-lora-prompt-tool.github" alt="sd-webui-lora-prompt-tool"></p>

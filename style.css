@@ -37,3 +37,7 @@
     padding: 0 6px 0 6px;
     color: white;
 }
+
+#translate_language_selector option {
+    background-color: var(--background-fill-primary);
+}
