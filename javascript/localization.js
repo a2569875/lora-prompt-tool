@@ -127,17 +127,18 @@ function module_init() {
         lorahelper.localizationPromiseResolve = resolve;
         lorahelper.localizationPromiseReject = reject;
     });
+
     let other_translate = {};
     let try_localization_looping = false;
     let try_localization = window.setInterval(function(){
         if (try_localization_looping) return;
         try {
-            if(!lorahelper.is_nullptr(localization) && !lorahelper.is_nullptr(opts.localization)){
+            if(!lorahelper.is_nullptr(window.localization) && !lorahelper.is_nullptr(opts.localization)){
                 try_localization_looping = true;
-                if (Object.keys(localization).length) {
+                if (Object.keys(window.localization).length) {
                     for (const [key, value] of Object.entries(my_localization_data)) {
                         if(value[opts.localization]){
-                            localization[key] = value[opts.localization];
+                            window.localization[key] = value[opts.localization];
                         }
                     }
                 } else {
@@ -180,7 +181,7 @@ function module_init() {
     }
 
     function has_bilingual(){
-        return !!opts.bilingual_localization_enabled && !!get_if_not_empty(opts.bilingual_localization_file) && !(Object.keys(localization).length);
+        return !!opts.bilingual_localization_enabled && !!get_if_not_empty(opts.bilingual_localization_file) && !(Object.keys(window.localization||{}).length);
     }
 
     function get_language_code(for_translate){

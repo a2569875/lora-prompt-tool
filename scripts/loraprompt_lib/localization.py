@@ -1,10 +1,29 @@
+import os
 import json
-from modules import localization
+from modules import shared
 
 source_filename = "localization"
 
 local_data = {}
 local_id = ""
+
+localizations = {}
+localizations_dir = shared.cmd_opts.localizations_dir if "localizations_dir" in shared.cmd_opts else "localizations"
+
+def list_localizations(dirname):
+    localizations.clear()
+    for file in os.listdir(dirname):
+        fn, ext = os.path.splitext(file)
+        if ext.lower() != ".json":
+            continue
+
+        localizations[fn] = os.path.join(dirname, file)
+
+    from modules import scripts
+    for file in scripts.list_scripts("localizations", ".json"):
+        fn, ext = os.path.splitext(file.filename)
+        localizations[fn] = file.path
+list_localizations(localizations_dir)
 
 my_localization_data = {
     "Edit Model Basic Data" : {
@@ -130,7 +149,7 @@ def load_localization(current_localization_name):
     global local_data
     global local_id
     local_id = current_localization_name
-    fn = localization.localizations.get(current_localization_name, None)
+    fn = localizations.get(current_localization_name, None)
     if fn is not None:
         try:
             with open(fn, "r", encoding="utf8") as file:
