@@ -3,6 +3,8 @@
 當你訓練了很多LoRA模型時，每個模型通常都有自己的模型觸發詞和使用方法，以往要使用外部工具來進行記錄
 這個擴展可以幫助你將這些模型的觸發詞和專用提示詞保存起來，並且在要使用時能快速地叫出來
 
+[![LoRA-Prompt-Tool!](https://res.cloudinary.com/marcomontalbano/image/upload/v1683644210/video_to_markdown/images/youtube--QQ9YVjCO_9s-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://www.youtube.com/watch?v=QQ9YVjCO_9s "LoRA-Prompt-Tool!")
+
 # 安裝
 
 將擴展解壓縮後，將lora-prompt-tool資料夾複製到\webui\extensions下，重新啟動webui即完成安裝
