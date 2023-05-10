@@ -158,10 +158,14 @@ onUiLoaded(() => {
         for (const tab_prefix of tab_prefix_list) {
             if (tab_prefix != active_tab_type) continue;
 
+            let log_messages = [];
+
             //find out current selected model type tab
             let active_extra_tab_type = "";
             let extra_tabs = lorahelper.gradioApp().getElementById(tab_prefix+"_extra_tabs");
-            if (!extra_tabs) {lorahelper.debug("can not find extra_tabs: " + tab_prefix+"_extra_tabs");}
+            if (!extra_tabs) {
+                log_messages.push("can not find extra_tabs: " + tab_prefix+"_extra_tabs");
+            }
 
             //get active extratab
             const active_extra_tab = Array.from(get_uiCurrentTabContent().querySelectorAll('.extra-network-cards,.extra-network-thumbs'))
@@ -185,7 +189,7 @@ onUiLoaded(() => {
                     active_extra_tab_type = "lyco";
                     break;
             }
-
+            let tab_counter = 0;
             for (const js_model_type of model_type_list) {
                 //get model_type for python side
                 switch (js_model_type) {
@@ -207,32 +211,37 @@ onUiLoaded(() => {
                 }
 
                 if (!model_type) {
-                    lorahelper.debug("can not get model_type from: " + js_model_type);
+                    log_messages.push("can not get model_type from: " + js_model_type);
                     continue;
                 }
 
+                let extra_network_parent = null;
                 //only handle current sub-tab
-                if (model_type != active_extra_tab_type) continue;
-                
-
                 extra_network_id = tab_prefix+"_"+js_model_type+"_"+cardid_suffix;
-                // lorahelper.debug("searching extra_network_node: " + extra_network_id);
+                if (model_type != active_extra_tab_type) continue;
                 extra_network_node = lorahelper.gradioApp().getElementById(extra_network_id);
                 // check if extr network is under thumbnail mode
                 is_thumb_mode = false
                 if (extra_network_node) {
                     if (extra_network_node.className == "extra-network-thumbs") {
-                        lorahelper.debug(extra_network_id + " is in thumbnail mode");
+                        log_messages.push(extra_network_id + " is in thumbnail mode");
                         is_thumb_mode = true;
                     }
                 } else {
-                    lorahelper.debug("can not find extra_network_node: " + extra_network_id);
+                    log_messages.push("can not find extra_network_node: " + extra_network_id);
                     continue;
                 }
 
+                let i = 0;
                 // get all card nodes
                 cards = extra_network_node.querySelectorAll(".card");
                 for (let card of cards) {
+                    if(card.classList.contains("lorahelp-context_menu")) continue;
+                    card.classList.add("lorahelp-context_menu");
+                    if(i==0){
+                        log_messages.push("setup context menu for " + extra_network_id);
+                        for(const msg of log_messages) lorahelper.debug(msg);
+                    }
                     //metadata_buttoncard
                     metadata_button = card.querySelector(".metadata-button");
                     //additional node
@@ -294,7 +303,55 @@ onUiLoaded(() => {
                     }else{
                         touch_icon.style.display = "none";
                     }
+                    ++i;
                 }
+                if(tab_counter == 0){
+                    for(let node_ptr = lorahelper.gradioApp().getElementById(extra_network_id);
+                        !lorahelper.is_empty(node_ptr?.parentElement?.parentNode);
+                        node_ptr = node_ptr?.parentElement
+                    ){
+                        node_id = (node_ptr||{getAttribute:()=>null}).getAttribute("id");
+                        if(lorahelper.is_empty(node_id)) continue;
+                        if ((node_id||"").indexOf("extra_network") >= 0){
+                            extra_network_parent = node_ptr;
+                            break;
+                        }
+                    }
+                    if(!lorahelper.is_empty(extra_network_parent)){
+                        if (lorahelper.is_empty(lorahelper.extra_network_panel_list)){
+                            lorahelper.extra_network_panel_list = [];
+                            lorahelper.extra_network_observer_list = [];
+                        }
+                        if ((lorahelper.extra_network_panel_list?.length||-1) <= 0){
+                            lorahelper.extra_network_panel_list = [];
+                            lorahelper.extra_network_observer_list = [];
+                        }
+                        let observer_id = lorahelper.extra_network_panel_list.indexOf(extra_network_parent);
+                        if(observer_id < 0){
+                            lorahelper.extra_network_panel_list.push(extra_network_parent);
+                            observer_id = lorahelper.extra_network_panel_list.indexOf(extra_network_parent);
+                            let lorahelper_observer = new MutationObserver((function(self){
+                                return mutations => {
+                                    if(lorahelper.extra_network_observer_list[self.id].working) return;
+                                    lorahelper.extra_network_observer_list[self.id].working = true;
+                                    lorahelper.update_card_for_lorahelper();
+                                    lorahelper.extra_network_observer_list[self.id].working = false;
+                                }
+                            })({
+                                id: observer_id,
+                                tab_prefix: tab_prefix
+                            }) );
+                            lorahelper.extra_network_observer_list.push(lorahelper_observer);
+                            lorahelper_observer.observe(extra_network_parent, {
+                                characterData: true,
+                                childList: true,
+                                subtree: true,
+                                attributes: true
+                            });
+                        }
+                    }
+                }
+                ++tab_counter;
             }
         }
     }
@@ -308,6 +365,10 @@ onUiLoaded(() => {
             all_tab_items = tab_parent.childNodes[0].querySelectorAll("button");
             for (let the_tab of all_tab_items) {
                 the_tab.addEventListener('click', function(ev) {
+                    (the_tab.querySelector("button")||{addEventListener:()=>false}).addEventListener('click', function(ev) {
+                        update_card_for_lorahelper();
+                        return true;
+                    }, false);
                     update_card_for_lorahelper();
                     return true;
                 }, false);
@@ -315,6 +376,10 @@ onUiLoaded(() => {
         }
     }else{
         for (let the_tab of all_tabs) {
+            (the_tab.querySelector("button")||{addEventListener:()=>false}).addEventListener('click', function(ev) {
+                update_card_for_lorahelper();
+                return true;
+            }, false);
             the_tab.addEventListener('click', function(ev) {
                 update_card_for_lorahelper();
                 return true;
@@ -346,4 +411,5 @@ onUiLoaded(() => {
     //update when start webui
     update_card_for_lorahelper();
     lorahelper.dataframe_focus_check();
+    lorahelper.update_card_for_lorahelper = update_card_for_lorahelper;
 });
