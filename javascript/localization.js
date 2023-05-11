@@ -192,7 +192,7 @@ function module_init() {
             if(opts.bilingual_localization_enabled){
                 const bilingual_language_code = get_if_not_empty(opts.bilingual_localization_file);
                 if (bilingual_language_code){
-                    return bilingual_language_code;
+                    return (x=>((x||[]).length>1)?x.slice(0,-1):x)(bilingual_language_code.split(".")).join(".");
                 }
             } else if (for_translate) {
                 const browser_language_code = get_if_not_empty(navigator.language || navigator.userLanguage);
