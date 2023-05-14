@@ -19,7 +19,7 @@ util.set_debug_logging_state(ajax_action.flag_to_boolean(setting.get_setting("de
 
 def on_ui_tabs():
     local_code = getattr(shared.opts, "localization", "en")
-    if getattr(shared.opts, "bilingual_localization_enabled", False):
+    if getattr(shared.opts, "bilingual_localization_enabled", False) and (local_code == "en" or str(local_code).lower() == "none"):
         local_code = getattr(shared.opts, "bilingual_localization_file", local_code)
     localization.load_localization(local_code)
     with gr.Blocks(analytics_enabled=False) as lora_prompt_helper:

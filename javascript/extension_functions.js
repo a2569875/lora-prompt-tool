@@ -371,24 +371,29 @@ function module_init() {
         lorahelper.close_lora_context_menu();
     
         lorahelper.lorahelper_model_image.innerHTML = "";
-        let interval_id = window.setInterval((function(bgimg){
+        let state = {EditTab:false};
+        let interval_id = window.setInterval((function(state_obj, bgimg_src){
             return function(){
-                let edit_model_tab = lorahelper.get_tab_by_name("Edit Model Trigger Words");
-                edit_model_tab.click();
+                if(!state_obj.EditTab){
+                    state_obj.EditTab = true;
+                    let edit_model_tab = lorahelper.get_tab_by_name("Edit Model Trigger Words");
+                    if(edit_model_tab) edit_model_tab.click();
+                    else lorahelper.debug("fail to switch to edit tab.");
+                }
                 if(lorahelper.lorahelper_model_image_parent.clientWidth <= 0) return;
                 let theHeight = lorahelper.lorahelper_model_image_parent.clientHeight;
                 if (theHeight <= 0){
                     theHeight = lorahelper.lorahelper_model_image_parent.clientWidth;
                 }
                 let preview_model_image = document.createElement("img");
-                preview_model_image.setAttribute("src", bgimg);
+                preview_model_image.setAttribute("src", bgimg_src);
                 preview_model_image.style.margin = "0 auto";
                 preview_model_image.style.height = `${theHeight}px`
                 lorahelper.lorahelper_model_image.appendChild(preview_model_image);
                 lorahelper.gradioApp().getElementById("lorahelp_js_trigger_words_dataframe").querySelector("table").parentElement.style.overflow = "scroll";
                 window.clearInterval(interval_id);
             };
-        })(bgimg), 50);
+        })(state, bgimg), 50);
     
         lorahelper.debug("end update_trigger_words");
     

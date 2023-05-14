@@ -4,123 +4,201 @@ function module_init() {
     console.log("[lora-prompt-tool] load localization module");
 
     const my_localization_data = {
-        "LoRA prompt helper" : {
-            "zh_TW": "LoRA提示詞工具"
-        },
-        "Edit Model Trigger Words" : {
-            "zh_TW": "編輯模型觸發詞"
-        },
-        "Update the JSON data from user input." : {
-            "zh_TW": "從在編輯頁面上做的編輯更新本JSON表格"
-        },
-        "Reload trigger words from model information file." : {
-            "zh_TW": "從模型資料檔案中重新載入模型觸發詞"
-        },
-        "Save the trigger words to model information file." : {
-            "zh_TW": "將模型觸發詞存檔到模型資料檔案中"
-        },
-        "prompts" : {
-            "zh_TW": "提示詞"
-        },
-        "prompt" : {
-            "zh_TW": "提示詞"
-        },
-        "title" : {
-            "zh_TW": "標題"
-        },
-        "trainedWords" : {
-            "zh_TW": "已訓練的提示詞"
-        },
-        "baseModel" : {
-            "zh_TW": "基底模型"
-        },
-        "description" : {
-            "zh_TW": "描述"
-        },
-        "modelId" : {
-            "zh_TW": "模型編號"
-        },
-        "negativePrompt" : {
-            "zh_TW": "反向提示詞"
-        },
-        "hashes" : {
-            "zh_TW": "雜湊值"
-        },
-        "Size" : {
-            "zh_TW": "尺寸"
-        },
-        "name" : {
-            "zh_TW": "名稱"
-        },
-        "Success" : {
-            "zh_TW": "成功"
-        },
-        "virusScanResult" : {
-            "zh_TW": "掃毒結果"
-        },
-        "downloadUrl" : {
-            "zh_TW": "下載網址"
-        },
-        "sizeKB" : {
-            "zh_TW": "檔案大小 (KB)"
-        },
-        "(from CivitAI)" : {
-            "zh_TW": "(來自CivitAI)"
-        },
-        "(No Trigger Word)" : {
-            "zh_TW": "(無觸發詞)"
-        },
-        "edit prompt words..." : {
-            "zh_TW": "編輯..."
-        },
-        "Not" : {
-            "zh_TW": "否"
-        },
-        "##Civitai##" : {
-            "zh_TW": "(CivitAI提供的提詞)"
-        },
-        "Sort Order" : {
-            "zh_TW": "排序方式"
-        },
-        "Ascending" : {
-            "zh_TW": "升序排序"
-        },
-        "Descending" : {
-            "zh_TW": "降序排序"
-        },
-        "Content copied to clipboard" : {
-            "zh_TW": "成功將所選擇的儲存格複製到剪貼簿"
-        },
-        "Failed to copy" : {
-            "zh_TW": "複製失敗"
-        },
-        "translating..." : {
-            "zh_TW": "翻譯中..."
-        },
-        "translation error" : {
-            "zh_TW": "翻譯發生錯誤"
-        },
-        "add prompt by image" : {
-            "zh_TW": "加入範例圖片的提示詞"
-        },
-        "use prompt and setting by image" : {
-            "zh_TW": "使用範例圖片的提示詞和生圖設定"
-        },
-        "Chinese Traditional" : {
-            "zh_TW": "繁體中文"
-        },
-        "add model using suggested setting" : {
-            "zh_TW": "使用建議的模型設定"
-        },
-        "Use suggested weight" : {
-            "zh_TW": "使用建議的權重"
-        },
-        "Use suggested params" : {
-            "zh_TW": "使用建議的模型參數"
-        },
-        "Use suggested weight and params" : {
-            "zh_TW": "使用建議的權重和模型參數"
-        },
+      "LoRA prompt helper": {
+        "zh_TW": "LoRA提示詞工具",
+        "ja": "LoRAプロンプトヘルパー",
+        "ko": "LoRA 프롬프트 도우미"
+      },
+      "Edit Model Trigger Words": {
+        "zh_TW": "編輯模型觸發詞",
+        "ja": "モデルトリガーワードの編集",
+        "ko": "모델 트리거 단어 수정"
+      },
+      "Update the JSON data from user input.": {
+        "zh_TW": "從在編輯頁面上做的編輯更新本JSON表格",
+        "ja": "ユーザー入力からJSONデータを更新する",
+        "ko": "사용자 입력에서 JSON 데이터 업데이트"
+      },
+      "Reload trigger words from model information file.": {
+        "zh_TW": "從模型資料檔案中重新載入模型觸發詞",
+        "ja": "モデル情報ファイルからトリガーワードを再読み込みする",
+        "ko": "모델 정보 파일에서 트리거 단어 다시 로드"
+      },
+      "Save the trigger words to model information file.": {
+        "zh_TW": "將模型觸發詞存檔到模型資料檔案中",
+        "ja": "トリガーワードをモデル情報ファイルに保存する",
+        "ko": "트리거 단어를 모델 정보 파일에 저장"
+      },
+      "prompts": {
+        "zh_TW": "提示詞",
+        "ja": "プロンプト",
+        "ko": "프롬프트"
+      },
+      "prompt": {
+        "zh_TW": "提示詞",
+        "ja": "プロンプト",
+        "ko": "프롬프트"
+      },
+      "title": {
+        "zh_TW": "標題",
+        "ja": "タイトル",
+        "ko": "제목"
+      },
+      "trainedWords": {
+        "zh_TW": "已訓練的提示詞",
+        "ja": "訓練済みのプロンプト",
+        "ko": "훈련된 프롬프트"
+      },
+      "baseModel": {
+        "zh_TW": "基底模型",
+        "ja": "ベースモデル",
+        "ko": "베이스 모델"
+      },
+      "description": {
+        "zh_TW": "描述",
+        "ja": "説明",
+        "ko": "설명"
+      },
+      "modelId": {
+        "zh_TW": "模型編號",
+        "ja": "モデルID",
+        "ko": "모델 ID"
+      },
+      "negativePrompt": {
+        "zh_TW": "反向提示詞",
+        "ja": "ネガティブプロンプト",
+        "ko": "부정적인 프롬프트"
+      },
+      "hashes": {
+        "zh_TW": "雜湊值",
+        "ja": "ハッシュ値",
+        "ko": "해시 값"
+      },
+      "Size": {
+        "zh_TW": "尺寸",
+        "ja": "サイズ",
+        "ko": "크기"
+      },
+      "name": {
+        "zh_TW": "名稱",
+        "ja": "名前",
+        "ko": "이름"
+      },
+      "Success": {
+        "zh_TW": "成功",
+        "ja": "成功",
+        "ko": "성공"
+      },
+      "virusScanResult": {
+        "zh_TW": "掃毒結果",
+        "ja": "ウイルススキャン結果",
+        "ko": "바이러스 스캔 결과"
+      },
+      "downloadUrl": {
+        "zh_TW": "下載網址",
+        "ja": "ダウンロードURL",
+        "ko": "다운로드 URL"
+      },
+      "sizeKB": {
+        "zh_TW": "檔案大小 (KB)",
+        "ja": "ファイルサイズ（KB）",
+        "ko": "파일 크기 (KB)"
+      },
+      "(from CivitAI)": {
+        "zh_TW": "(來自CivitAI)",
+        "ja": "（CivitAIから）",
+        "ko": "（CivitAI에서）"
+      },
+      "(No Trigger Word)": {
+        "zh_TW": "(無觸發詞)",
+        "ja": "（トリガーワードなし）",
+        "ko": "（트리거 단어 없음）"
+      },
+      "edit prompt words...": {
+        "zh_TW": "編輯...",
+        "ja": "プロンプトを編集する...",
+        "ko": "프롬프트 단어 편집..."
+      },
+      "Not": {
+        "zh_TW": "否",
+        "ja": "いいえ",
+        "ko": "아니요"
+      },
+      "##Civitai##": {
+        "zh_TW": "(CivitAI提供的提詞)",
+        "ja": "（CivitAIからのプロンプト）",
+        "ko": "（CivitAI에서 제공하는 프롬프트）"
+      },
+      "Sort Order": {
+        "zh_TW": "排序方式",
+        "ja": "ソート順",
+        "ko": "정렬 순서"
+      },
+      "Ascending": {
+        "zh_TW": "升序排序",
+        "ja": "昇順",
+        "ko": "오름차순"
+      },
+      "Descending": {
+        "zh_TW": "降序排序",
+        "ja": "降順",
+        "ko": "내림차순"
+      },
+      "Content copied to clipboard": {
+        "zh_TW": "成功將所選擇的儲存格複製到剪貼簿",
+        "ja": "選択されたセルがクリップボードにコピーされました",
+        "ko": "선택한 셀이 클립 보드로 복사되었습니다"
+      },
+      "Failed to copy": {
+        "zh_TW": "複製失敗",
+        "ja": "コピーに失敗しました",
+        "ko": "복사 실패"
+      },
+      "translating...": {
+        "zh_TW": "翻譯中...",
+        "ja": "翻訳中...",
+        "ko": "번역 중..."
+      },
+      "translation error": {
+        "zh_TW": "翻譯發生錯誤",
+        "ja": "翻訳エラー",
+        "ko": "번역 오류"
+      },
+      "add prompt by image": {
+        "zh_TW": "加入範例圖片的提示詞",
+        "ja": "画像からプロンプトを追加",
+        "ko": "이미지로 프롬프트 추가"
+      },
+      "use prompt and setting by image": {
+        "zh_TW": "使用範例圖片的提示詞和生圖設定",
+        "ja": "画像からプロンプトと設定を使用",
+        "ko": "이미지로 프롬프트와 설정 사용"
+      },
+      "Chinese Traditional": {
+        "zh_TW": "繁體中文",
+        "ja": "繁体中国語",
+        "ko": "중국어 번체"
+      },
+      "add model using suggested setting": {
+        "zh_TW": "使用建議的模型設定",
+        "ja": "提案された設定を使用してモデルを追加",
+        "ko": "제안된 설정을 사용하여 모델 추가"
+      },
+      "Use suggested weight": {
+        "zh_TW": "使用建議的權重",
+        "ja": "提案された重みを使用",
+        "ko": "제안된 가중치 사용"
+      },
+      "Use suggested params": {
+        "zh_TW": "使用建議的模型參數",
+        "ja": "提案されたパラメータを使用",
+        "ko": "제안된 모델 매개변수 사용"
+      },
+      "Use suggested weight and params": {
+        "zh_TW": "使用建議的權重和模型參數",
+        "ja": "提案された重みとパラメータを使用",
+        "ko": "제안된 가중치와 모델 매개변수 사용"
+      }
     };
     
     lorahelper.localizationPromise = new Promise((resolve, reject) => {
@@ -139,7 +217,13 @@ function module_init() {
                     for (const [key, value] of Object.entries(my_localization_data)) {
                         if(value[opts.localization]){
                             window.localization[key] = value[opts.localization];
+                        } else {
+                            const prefix = ((""+(opts.localization||"")).toLowerCase().replace(/[_\-\s]+/,"_").split("_")||[])[0];
+                            if(value[prefix]){
+                              window.localization[key] = value[prefix];
+                          }
                         }
+                        
                     }
                 } else {
                     if(has_bilingual()){
@@ -293,10 +377,10 @@ function module_init() {
         for (const [lang_code, lang_name] of Object.entries(lorahelper.languages)) {
             var option = document.createElement("option");
             const lang_data = !!(lang_name.name) ? lang_name : {name: lang_name};
-			option.value = lang_code;
-			option.text = lang_data.display ? `${lang_code} - ${lang_data.display} (${lang_data.name})` : lang_data.name;
-			option.setAttribute("title", lang_data.display ? lang_data.display : lang_data.name);
-			option.setAttribute("lang-name", lang_data.name);
+            option.value = lang_code;
+            option.text = lang_data.display ? `${lang_code} - ${lang_data.display} (${lang_data.name})` : lang_data.name;
+            option.setAttribute("title", lang_data.display ? lang_data.display : lang_data.name);
+            option.setAttribute("lang-name", lang_data.name);
             if(is_same_language(lang_code, selected_lang_code)){
                 lang_display.innerHTML = lang_data.display;
                 select_id = i;
