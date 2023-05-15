@@ -137,8 +137,9 @@ function module_init() {
     }
     
     function getActiveTabType() {
+        if(typeof(get_uiCurrentTabContent) !== typeof(lorahelper.noop_func)) return null;
         const currentTab = get_uiCurrentTabContent();
-        switch (currentTab.id) {
+        switch (currentTab?.id) {
             case "tab_txt2img":
                 return "txt2img";
             case "tab_img2img":
@@ -148,8 +149,9 @@ function module_init() {
     }
     
     function getActivePrompt() {
+        if(typeof(get_uiCurrentTabContent) !== typeof(lorahelper.noop_func)) return null;
         const currentTab = get_uiCurrentTabContent();
-        switch (currentTab.id) {
+        switch (currentTab?.id) {
             case "tab_txt2img":
                 return lorahelper.txt2img_prompt;
             case "tab_img2img":
@@ -159,8 +161,9 @@ function module_init() {
     }
     
     function getActiveNegativePrompt() {
+        if(typeof(get_uiCurrentTabContent) !== typeof(lorahelper.noop_func)) return null;
         const currentTab = get_uiCurrentTabContent();
-        switch (currentTab.id) {
+        switch (currentTab?.id) {
             case "tab_txt2img":
                 return lorahelper.neg_txt2img_prompt;
             case "tab_img2img":
