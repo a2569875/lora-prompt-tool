@@ -168,7 +168,13 @@ onUiLoaded(() => {
             }
 
             //get active extratab
-            const active_extra_tab = Array.from(get_uiCurrentTabContent().querySelectorAll('.extra-network-cards,.extra-network-thumbs'))
+            let try_to_get_extra_tab = Array.from(get_uiCurrentTabContent().querySelectorAll('.extra-network-cards,.extra-network-thumbs'))
+            if(try_to_get_extra_tab.length <= 0){ //support for kitchen-theme
+                let txt2img_array_tmp = Array.from(lorahelper.gradioApp().querySelector("#txt2img-extra-netwrok-sidebar").querySelectorAll('.extra-network-cards,.extra-network-thumbs'));
+                let img2img_array_tmp = Array.from(lorahelper.gradioApp().querySelector("#img2img-extra-netwrok-sidebar").querySelectorAll('.extra-network-cards,.extra-network-thumbs'));
+                try_to_get_extra_tab = txt2img_array_tmp.concat(img2img_array_tmp);
+            }
+            const active_extra_tab = try_to_get_extra_tab
                 .find(el => el.closest('.tabitem').style.display === 'block')
                 ?.id.match(/^(txt2img|img2img)_(.+)_cards$/)[2];
 
