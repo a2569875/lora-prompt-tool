@@ -393,7 +393,7 @@ def update_trigger_words_json(model_sub_type, model_name, model_path, model_weig
         pass
 
     if model_path == "":
-        return append_empty(model_info)
+        return model_info
 
     check_name, ext = os.path.splitext(model_path)
     check_name = check_name.replace("\\", "/")
@@ -471,7 +471,7 @@ def update_trigger_words_json(model_sub_type, model_name, model_path, model_weig
         else:
             model_info["type"] = model_sub_type
 
-    return append_empty(model_info)
+    return model_info
 
 #儲存編輯好的提詞表
 def save_trigger_words(model_type_display, model_sub_type, model_name, model_path, model_weight, model_params, 
