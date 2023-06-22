@@ -15,6 +15,8 @@ try:
 except:
     pass
 
+DEFAULT_KEY = "##default##"
+
 # extension path
 extension_path = scripts.basedir()
 

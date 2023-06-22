@@ -7,7 +7,9 @@ from . import util
 from . import loraprompttool
 from . import ajax_handler
 from . import localization
-
+from .dataframe_edit import get_simple_from_df
+from .dataframe_edit import save_to_dataframe
+from .dataframe_edit import append_empty
 source_filename = "ajax_action"
 
 def cors_request(msg):
@@ -110,7 +112,7 @@ def get_setting_from_dreambooth(db_model_name, df):
     from . import model
     dreambooth_info = model.get_db_model_setting(db_model_name)
     if not dreambooth_info:
-        return [localization.get_localize_message("trigger word not found."), df.values.tolist()]
+        return [localization.get_localize_message("trigger word not found."), append_empty(df.values.tolist())]
     prompt_list = []
     if "concepts_path" in dreambooth_info.keys():
         if dreambooth_info["concepts_path"].strip() != "":
@@ -130,7 +132,7 @@ def get_setting_from_dreambooth(db_model_name, df):
                 if prompt.strip() != "":
                     prompt_list.append(prompt)
     if len(prompt_list) <= 0:
-        return [localization.get_localize_message("trigger word not found."), df.values.tolist()]
+        return [localization.get_localize_message("trigger word not found."), append_empty(df.values.tolist())]
     
     if df is None:
         libdata.noop_func()
@@ -138,12 +140,14 @@ def get_setting_from_dreambooth(db_model_name, df):
         prompt_data = df.values.tolist()
         for prompt in prompt_list:
             prompt_data.append(["", prompt, "", ""])
-        return [localization.get_localize_message("Successfully load trigger word from Dreambooth model."), prompt_data]
+        return [localization.get_localize_message("Successfully load trigger word from Dreambooth model."), append_empty(prompt_data)]
     #反正程式現在跑不到這一行，就不理他了XD
-    return ["你去問緒山真尋這程式寫好沒!", df.values.tolist()]
+    return ["你去問緒山真尋這程式寫好沒!", append_empty(df.values.tolist())]
 
 #從CivitAI站導入模型資料 (只限於從CivitAI站下載的模型...)
-def get_setting_from_Civitai(model_type_display, model_sub_type, model_name, model_path, input_weight, input_param, df, loadded_json_text):
+def get_setting_from_Civitai(model_type_display, model_sub_type, model_name, model_path, input_weight, input_param, 
+        df, main_name, main_trigger, has_extra, extra_name, extra_trigger, has_neg, neg_name, neg_trigger,
+        loadded_json_text):
     """get JSON from CivitAI.
 
     Parameters
@@ -173,7 +177,10 @@ def get_setting_from_Civitai(model_type_display, model_sub_type, model_name, mod
     if model_path == "":
         util.console.error("Parsing ajax failed", f"{source_filename}.get_setting_from_Civitai")
         return [localization.get_localize_message("Read failed, no model selected."), model_type_display, model_sub_type, model_name, 
-                model_path, input_weight, input_param, df.values.tolist(), loadded_json_text, returned_json]
+                model_path, input_weight, input_param, 
+                append_empty(save_to_dataframe(df, main_name, main_trigger, has_extra, extra_name, extra_trigger, has_neg, neg_name, neg_trigger)), 
+                main_name, main_trigger, has_extra, extra_name, extra_trigger, has_neg, neg_name, neg_trigger,
+                loadded_json_text, returned_json]
     
     model_type = libdata.model_type_dict[model_type_display]
     model_weight = input_weight
@@ -186,10 +193,16 @@ def get_setting_from_Civitai(model_type_display, model_sub_type, model_name, mod
     if model_state == "empty":
         return  [localization.get_localize_message("CivitAI does not have this model, or it has been taken down."), 
                 model_type_display, model_sub_type, model_name,
-                model_path, input_weight, input_param, df.values.tolist(), loadded_json_text, returned_json]
+                model_path, input_weight, input_param, 
+                append_empty(save_to_dataframe(df, main_name, main_trigger, has_extra, extra_name, extra_trigger, has_neg, neg_name, neg_trigger)),
+                main_name, main_trigger, has_extra, extra_name, extra_trigger, has_neg, neg_name, neg_trigger,
+                loadded_json_text, returned_json]
     elif model_state == "error":
         return  [loraprompttool.get_model_error_message(Civitai_info), model_type_display, model_sub_type, model_name,
-                model_path, input_weight, input_param, df.values.tolist(), loadded_json_text, returned_json]
+                model_path, input_weight, input_param, 
+                append_empty(save_to_dataframe(df, main_name, main_trigger, has_extra, extra_name, extra_trigger, has_neg, neg_name, neg_trigger)),
+                main_name, main_trigger, has_extra, extra_name, extra_trigger, has_neg, neg_name, neg_trigger,
+                loadded_json_text, returned_json]
     
     #load user inputed information 
     loadded_json = None
@@ -239,7 +252,7 @@ def get_setting_from_Civitai(model_type_display, model_sub_type, model_name, mod
     if df is None:
         libdata.noop_func()
     else:
-        prompt_data = df.values.tolist()
+        prompt_data = save_to_dataframe(df, main_name, main_trigger, has_extra, extra_name, extra_trigger, has_neg, neg_name, neg_trigger)
         for prompt in prompt_data:
             prompt_title = prompt[0]
             prompt_value = prompt[1]
@@ -363,10 +376,16 @@ def get_setting_from_Civitai(model_type_display, model_sub_type, model_name, mod
     outputed_json_text = json.dumps(Civitai_info, indent=4)
     return [localization.get_localize_message("Successfully downloaded model data from CivitAI."), 
             model_type_display, new_model_sub_type, 
-            new_model_name, model_path, model_weight, model_param, prompt_list, outputed_json_text, 
-            update_trigger_words_json(model_sub_type, model_name, model_path, model_weight, model_param, df, outputed_json_text)]
+            new_model_name, model_path, model_weight, model_param, 
+            append_empty(prompt_list), *get_simple_from_df(prompt_list),
+            outputed_json_text, 
+            update_trigger_words_json(model_sub_type, model_name, model_path, model_weight, model_param, 
+                df, main_name, main_trigger, has_extra, extra_name, extra_trigger, has_neg, neg_name, neg_trigger,
+            outputed_json_text)]
 
-def update_trigger_words_json(model_sub_type, model_name, model_path, model_weight, model_params, df, loadded_json):
+def update_trigger_words_json(model_sub_type, model_name, model_path, model_weight, model_params, 
+        df, main_name, main_trigger, has_extra, extra_name, extra_trigger, has_neg, neg_name, neg_trigger,
+        loadded_json):
     model_info = None
     try:
         model_info = json.loads(loadded_json)
@@ -374,7 +393,7 @@ def update_trigger_words_json(model_sub_type, model_name, model_path, model_weig
         pass
 
     if model_path == "":
-        return model_info
+        return append_empty(model_info)
 
     check_name, ext = os.path.splitext(model_path)
     check_name = check_name.replace("\\", "/")
@@ -402,7 +421,7 @@ def update_trigger_words_json(model_sub_type, model_name, model_path, model_weig
     else:
         civitai_it = 0
         it = 0
-        prompt_data = df.values.tolist()
+        prompt_data = save_to_dataframe(df, main_name, main_trigger, has_extra, extra_name, extra_trigger, has_neg, neg_name, neg_trigger)
         if is_civitai:
             model_info["trainedWords"] = []
         model_info["prompts"] = []
@@ -452,10 +471,12 @@ def update_trigger_words_json(model_sub_type, model_name, model_path, model_weig
         else:
             model_info["type"] = model_sub_type
 
-    return model_info
+    return append_empty(model_info)
 
 #儲存編輯好的提詞表
-def save_trigger_words(model_type_display, model_sub_type, model_name, model_path, model_weight, model_params, df, loadded_json):
+def save_trigger_words(model_type_display, model_sub_type, model_name, model_path, model_weight, model_params, 
+        df, main_name, main_trigger, has_extra, extra_name, extra_trigger, has_neg, neg_name, neg_trigger,
+        loadded_json):
     """save user inputed trigger words to JSON file.
 
     Parameters
@@ -510,7 +531,7 @@ def save_trigger_words(model_type_display, model_sub_type, model_name, model_pat
     else:
         civitai_it = 0
         it = 0
-        prompt_data = df.values.tolist()
+        prompt_data = save_to_dataframe(df, main_name, main_trigger, has_extra, extra_name, extra_trigger, has_neg, neg_name, neg_trigger)
         if is_civitai:
             model_info["trainedWords"] = []
         model_info["prompts"] = []
@@ -591,7 +612,7 @@ def reload_trigger_words(model_type_input, model_path):
     model_info = loraprompttool.load_model_info_by_model_path(model_type, model_path)
     
     if not model_info:
-        return [model_type_display, "", check_name[-1], model_path, "", "", [libdata.dataframe_empty_row], "", {}]
+        return [model_type_display, "", check_name[-1], model_path, "", "", [libdata.dataframe_empty_row], *get_simple_from_df([libdata.dataframe_empty_row]), "", {}]
 
     model_sub_type = get_key(model_info, "type", model_type_display)
     model_name = get_key(model_info, "name", check_name[-1])
@@ -637,7 +658,7 @@ def reload_trigger_words(model_type_input, model_path):
     if len(prompt_list) <= 0:
         prompt_list = [libdata.dataframe_empty_row]
 
-    return [model_type_display, model_sub_type, model_name, model_path, model_weight, model_params, prompt_list, json.dumps(model_info, indent=4), model_info]
+    return [model_type_display, model_sub_type, model_name, model_path, model_weight, model_params, append_empty(prompt_list), *get_simple_from_df(prompt_list), json.dumps(model_info, indent=4), model_info]
 
 
 def update_trigger_words(msg):

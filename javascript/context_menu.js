@@ -15,6 +15,7 @@ function module_init() {
     lorahelper.lorahelper_context_menu_search_lock = false;
     
     lorahelper.lorahelper_mouse_position = {x: -1, y: -1};
+
     function updateLoraHelperSearchingBox(event){
         if(lorahelper.lorahelper_context_menu_search_lock){
             return;

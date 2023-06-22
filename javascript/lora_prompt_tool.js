@@ -94,6 +94,48 @@ onUiLoaded(() => {
         lorahelper.find_tag_by_innerHTML(lorahelp_js_sort_order_radio, "span", "Ascending").innerHTML = lorahelper.get_UI_display("Ascending");
         lorahelper.find_tag_by_innerHTML(lorahelp_js_sort_order_radio, "span", "Descending").innerHTML = lorahelper.get_UI_display("Descending");
         lorahelper.translate_language_selector();
+        lorahelper.fill_cell_placeholder();
+
+        lorahelper.gradioApp().getElementById("lorahelp_js_load_textbox_prompt_btn").addEventListener('click', e=>{
+            lorahelper.gradioApp().getElementById("js_tab_adv_edit").parentElement.parentElement.querySelectorAll("button")[1].click();
+            lorahelper.dataedit_search_box.value = "";
+        }, false);
+        lorahelper.gradioApp().getElementById("lorahelp_js_load_civitai_setting_btn").addEventListener('click', e=>{
+            lorahelper.gradioApp().getElementById("js_tab_adv_edit").parentElement.parentElement.querySelectorAll("button")[1].click();
+            lorahelper.dataedit_search_box.value = "";
+        }, false);
+        lorahelper.gradioApp().getElementById("lorahelp_js_load_dreambooth_setting_btn").addEventListener('click', e=>{
+            lorahelper.gradioApp().getElementById("js_tab_adv_edit").parentElement.parentElement.querySelectorAll("button")[1].click();
+            lorahelper.dataedit_search_box.value = "";
+        }, false);
+
+        let dataedit_search = lorahelper.gradioApp().getElementById("lorahelp_js_dataframe_filter").querySelector("input, textarea");
+        for(const eve_name of ["change", "keypress", "paste", "input"]){
+            dataedit_search.addEventListener(eve_name, e=>{
+                lorahelper.updateDataeditSearchingBox();
+            }, false);
+        }
+        lorahelper.dataedit_search_box = dataedit_search;
+
+        (()=>{
+            // Select the node that will be observed for mutations
+            const targetNode = document.getElementById("lorahelp_simpleedit_supergroup_other");
+    
+            // Options for the observer (which mutations to observe)
+            const config = { attributes: true, childList: true, subtree: true };
+    
+            // Callback function to execute when mutations are observed
+            const callback = (mutationList, observer) => {
+                lorahelper.update_simpleedit_group();
+            };
+    
+            // Create an observer instance linked to the callback function
+            const observer = new MutationObserver(callback);
+    
+            // Start observing the target node for configured mutations
+            observer.observe(targetNode, config);
+        })();
+
     });
 
     //緒山真尋!! 緒山真尋!! 緒山真尋!! 緒山真尋!! 緒山真尋!!
@@ -170,8 +212,8 @@ onUiLoaded(() => {
             //get active extratab
             let try_to_get_extra_tab = Array.from(get_uiCurrentTabContent().querySelectorAll('.extra-network-cards,.extra-network-thumbs'))
             if(try_to_get_extra_tab.length <= 0){ //support for kitchen-theme
-                let txt2img_array_tmp = Array.from(lorahelper.gradioApp().querySelector("#txt2img-extra-netwrok-sidebar").querySelectorAll('.extra-network-cards,.extra-network-thumbs'));
-                let img2img_array_tmp = Array.from(lorahelper.gradioApp().querySelector("#img2img-extra-netwrok-sidebar").querySelectorAll('.extra-network-cards,.extra-network-thumbs'));
+                let txt2img_array_tmp = Array.from(lorahelper.gradioApp().querySelector("#txt2img-extra-netwrok-sidebar")?.querySelectorAll('.extra-network-cards,.extra-network-thumbs')||[]);
+                let img2img_array_tmp = Array.from(lorahelper.gradioApp().querySelector("#img2img-extra-netwrok-sidebar")?.querySelectorAll('.extra-network-cards,.extra-network-thumbs')||[]);
                 try_to_get_extra_tab = txt2img_array_tmp.concat(img2img_array_tmp);
             }
             const active_extra_tab = try_to_get_extra_tab
@@ -392,6 +434,32 @@ onUiLoaded(() => {
             }, false);
         }
     }
+    lorahelper.simpleedit_group_extra_enabled = lorahelper.gradioApp().querySelector("#lorahelp_simpleedit_group_extra_enabled input");
+    lorahelper.simpleedit_group_extra_body = lorahelper.gradioApp().querySelector("#lorahelp_simpleedit_group_extra_body");
+    lorahelper.simpleedit_group_neg_enabled = lorahelper.gradioApp().querySelector("#lorahelp_simpleedit_group_neg_enabled input");
+    lorahelper.simpleedit_group_neg_body= lorahelper.gradioApp().querySelector("#lorahelp_simpleedit_group_neg_body");
+    lorahelper.sorting_group_enabled = lorahelper.gradioApp().querySelector("#lorahelp_sorting_group_enabled input");
+    lorahelper.sorting_group_body = lorahelper.gradioApp().querySelector("#lorahelp_sorting_group");
+    lorahelper.update_simpleedit_group = function(){
+        if(lorahelper.simpleedit_group_extra_enabled.checked)
+            lorahelper.simpleedit_group_extra_body.style.display="block";
+        else
+            lorahelper.simpleedit_group_extra_body.style.display="none";
+        if(lorahelper.simpleedit_group_neg_enabled.checked)
+            lorahelper.simpleedit_group_neg_body.style.display="block";
+        else
+            lorahelper.simpleedit_group_neg_body.style.display="none";
+        if(lorahelper.sorting_group_enabled.checked)
+            lorahelper.sorting_group_body.style.display="block";
+        else
+            lorahelper.sorting_group_body.style.display="none";
+        return true;
+    }
+
+    lorahelper.simpleedit_group_extra_enabled.addEventListener('click', lorahelper.update_simpleedit_group, false);
+    lorahelper.simpleedit_group_neg_enabled.addEventListener('click', lorahelper.update_simpleedit_group, false);
+    lorahelper.sorting_group_enabled.addEventListener('click', lorahelper.update_simpleedit_group, false);
+    lorahelper.update_simpleedit_group();
     //update when tab refreshed
     lorahelper.gradioApp().getElementById("txt2img_extra_refresh").addEventListener('click', function(ev) {
         update_card_for_lorahelper();

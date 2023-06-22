@@ -35,18 +35,36 @@ def on_ui_tabs():
                     with gr.Row():
                         with gr.Column():
                             js_model_type = gr.Textbox(label=localization.get_localize("Model type"), interactive=False)
-                            js_subtype = gr.Textbox(label=localization.get_localize("Type"), interactive=True)
+                            js_subtype = gr.Textbox(label=localization.get_localize("Type"), interactive=True, placeholder="EX: LoCon")
                             js_model_name = gr.Textbox(label=localization.get_localize("Name"), interactive=True)
                             js_model_path = gr.Textbox(label=localization.get_localize("Model Path"), interactive=False)
                         gr.HTML(f"<div id=\"lorahelp_js_image_area\">{localization.get_localize('You DID NOT load any model!')}</div>")
                     with gr.Row():
-                        js_suggested_weight = gr.Textbox(label=localization.get_localize("Suggested weight"), interactive=True)
-                        js_model_params = gr.Textbox(label=localization.get_localize("Model params"), interactive=True)
+                        js_suggested_weight = gr.Textbox(label=localization.get_localize("Suggested weight"), interactive=True, placeholder="EX: 1.0")
+                        js_model_params = gr.Textbox(label=localization.get_localize("Model params"), interactive=True, placeholder="EX: 0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0")
             with gr.Box(elem_classes="lorahelp_box"):
                 #提詞編輯區
                 with gr.Column():
                     gr.Markdown(f"### {localization.get_localize('Edit Model Trigger Words')}")
-                    with gr.Tab(localization.get_localize('DataFrame')):
+                    with gr.Tab(localization.get_localize('Easy editing')):
+                        with gr.Column(elem_id="lorahelp_simpleedit_group_main"):
+                            simpleedit_main_name = gr.Textbox(label=localization.get_localize("name"), interactive=True, placeholder=localization.get_localize("EX: draw a Mahiro"))
+                            simpleedit_main_triggerword = gr.Textbox(label=localization.get_localize("Trigger Word"), interactive=True, placeholder="EX: mahiro_\\(onimai\\)")
+                        with gr.Column(elem_id="lorahelp_simpleedit_supergroup_other"):
+                            with gr.Column(elem_id="lorahelp_simpleedit_group_extra"):
+                                simpleedit_extra_enable = gr.Checkbox(value=False,label=localization.get_localize("Additional description"), interactive=True, elem_id="lorahelp_simpleedit_group_extra_enabled")
+                                with gr.Column(elem_id="lorahelp_simpleedit_group_extra_body"):
+                                    simpleedit_extra_name = gr.Textbox(label=localization.get_localize("Additional description name"), interactive=True, placeholder=localization.get_localize("EX: Characteristics of Mahiro"))
+                                    simpleedit_extra_triggerword = gr.Textbox(label=localization.get_localize("Description prompt"), interactive=True, placeholder="EX: long_hair, brown_eyes")
+                            with gr.Column(elem_id="lorahelp_simpleedit_group_neg"):
+                                simpleedit_neg_enable = gr.Checkbox(value=False,label=localization.get_localize("Dedicated negative prompt"), interactive=True, elem_id="lorahelp_simpleedit_group_neg_enabled")
+                                with gr.Column(elem_id="lorahelp_simpleedit_group_neg_body"):
+                                    simpleedit_neg_name = gr.Textbox(label=localization.get_localize("Dedicated negative prompt name"), interactive=True, placeholder=localization.get_localize("EX: negative prompt for Mahiro"))
+                                    simpleedit_neg_triggerword = gr.Textbox(label=localization.get_localize("Negative prompt"), interactive=True, placeholder="EX: ugly, bad")
+                        simpleedit_apply = gr.Button(value=localization.get_localize("Apply data"))
+                        simpleedit_parms=[simpleedit_main_name, simpleedit_main_triggerword, simpleedit_extra_enable, simpleedit_extra_name, simpleedit_extra_triggerword, simpleedit_neg_enable, simpleedit_neg_name, simpleedit_neg_triggerword]
+
+                    with gr.Tab(localization.get_localize('Advanced editing'),elem_id="js_tab_adv_edit"):
                         js_dataedit_select_index = gr.Textbox(label="Select Index", visible=False, lines=1, value="", elem_id="lorahelp_dataedit_select_index_txtbox")
                         js_copy_paste_box = gr.Textbox(label="Copy paste", visible=False, lines=1, value="", elem_id="lorahelp_copy_paste_txtbox")
                         dataedit_add_event = gr.Button(value=libdata.add_symbol, visible=False, elem_id="lorahelp_dataedit_add_event")
@@ -67,31 +85,35 @@ def on_ui_tabs():
                             ToolButton(value=libdata.paste_append_symbol, elem_id="lorahelp_dataedit_paste_append_btn")
                             ToolButton(value="", elem_id="lorahelp_oyama_mahiro")
                             dataedit_refresh_event = ToolButton(value=libdata.refresh_symbol, elem_id="lorahelp_dataedit_refresh_event_btn")
-                            gr.Button(value=localization.get_localize("translate"), elem_id="lorahelp_dataedit_translate_btn")
+                            gr.Button(value=localization.get_localize("Translate prompt words into:"), elem_id="lorahelp_dataedit_translate_btn")
                         gr.HTML(f"<div id=\"lorahelp_translate_area\"></div>")
 
                         #編輯區: 資料表
                         js_dataedit = gr.Dataframe(headers=[
                                 localization.get_localize("name"), 
-                                localization.get_localize("Trigger Word"), 
-                                localization.get_localize("Categorys"), 
-                                localization.get_localize("Negative prompt")
+                                localization.get_localize("Enter your prompt word (trigger word/prompt/negative prompt)"), 
+                                localization.get_localize("Categorys of prompt"), 
+                                localization.get_localize("Negative prompt: please enter Y if this prompt is a negative prompt.")
                             ], datatype=["str", "str", "str", "str"], col_count=(4, "fixed"), elem_id="lorahelp_js_trigger_words_dataframe", interactive=True)
                         
                         #操作區
                         with gr.Row():
                             js_remove_duplicate_prompt_btn = gr.Button(value=localization.get_localize("Remove duplicate prompts"))
                             js_remove_empty_prompt_btn = gr.Button(value=localization.get_localize("Remove empty prompts"))
-
-                        #排序功能
-                        with gr.Row():
-                            js_sort_order = gr.Radio(
-                                choices=[e.value for e in libdata.SortOrder], interactive=True, 
-                                label=localization.get_localize('Sort Order'),
-                                elem_id="lorahelp_js_sort_order_radio"
-                            )
-                            js_sort_by_title_btn = gr.Button(value=localization.get_localize("Sort by title"))
-                            js_sort_by_prompt_btn = gr.Button(value=localization.get_localize("Sort by prompt"))
+                        with gr.Column():
+                            with gr.Row():
+                                js_dataframe_filter = gr.Textbox(label=localization.get_localize("Search..."), interactive=True, elem_id="lorahelp_js_dataframe_filter")
+                            gr.Checkbox(value=False,label=localization.get_localize("Sorting"), interactive=True, elem_id="lorahelp_sorting_group_enabled")
+                        with gr.Column(elem_id="lorahelp_sorting_group"):
+                            #排序功能
+                            with gr.Row():
+                                js_sort_order = gr.Radio(
+                                    choices=[e.value for e in libdata.SortOrder], interactive=True, 
+                                    label=localization.get_localize('Sort Order'),
+                                    elem_id="lorahelp_js_sort_order_radio"
+                                )
+                                js_sort_by_title_btn = gr.Button(value=localization.get_localize("Sort by title"))
+                                js_sort_by_prompt_btn = gr.Button(value=localization.get_localize("Sort by prompt"))
                     with gr.Tab(localization.get_localize('JSON')):
                         with gr.Column():
                             with gr.Row():
@@ -152,25 +174,31 @@ def on_ui_tabs():
         js_debug_logging.change(util.set_debug_logging_state, inputs=[js_debug_logging]) 
         js_touch_mode.change(setting.set_touch_mode, inputs=[js_touch_mode]) 
 
+        model_data_ui_input = [js_subtype, js_model_name, js_model_path, js_suggested_weight, js_model_params]
+
+        #工具列事件
         dataedit_add_event.click(dataframe_edit.add_row, inputs=[js_dataedit_select_index, js_dataedit], outputs=[js_dataedit])
         dataedit_delete_event.click(dataframe_edit.delete_row, inputs=[js_dataedit_select_index, js_dataedit], outputs=[js_dataedit])
         dataedit_up_event.click(dataframe_edit.up_row, inputs=[js_dataedit_select_index, js_dataedit], outputs=[js_dataedit])
         dataedit_down_event.click(dataframe_edit.down_row, inputs=[js_dataedit_select_index, js_dataedit], outputs=[js_dataedit])
         dataedit_paste_event.click(dataframe_edit.paste_cell, inputs=[js_dataedit_select_index, js_copy_paste_box, js_dataedit], outputs=[js_dataedit])
         dataedit_paste_append_event.click(dataframe_edit.paste_merge_cell, inputs=[js_dataedit_select_index, js_copy_paste_box, js_dataedit], outputs=[js_dataedit])
+
+        simpleedit_apply.click(dataframe_edit.save_to_dataframe, inputs=[js_dataedit, *simpleedit_parms], outputs=[js_dataedit])
+
         dataedit_refresh_event.click(ajax_action.reload_trigger_words, inputs=[js_model_type, js_model_path], 
-            outputs=[js_model_type, js_subtype, js_model_name, js_model_path, js_suggested_weight, js_model_params, js_dataedit, json_ajax_txtbox, js_json_preview])
-        json_refresh_event.click(ajax_action.update_trigger_words_json, inputs=[js_subtype, js_model_name, js_model_path, js_suggested_weight, js_model_params, js_dataedit, json_ajax_txtbox], 
+            outputs=[js_model_type, *model_data_ui_input, js_dataedit, *simpleedit_parms, json_ajax_txtbox, js_json_preview])
+        json_refresh_event.click(ajax_action.update_trigger_words_json, inputs=[*model_data_ui_input, js_dataedit, *simpleedit_parms, json_ajax_txtbox], 
             outputs=[js_json_preview])
 
 
         js_save_model_setting_btn.click(ajax_action.save_trigger_words, 
-            inputs=[js_model_type, js_subtype, js_model_name, js_model_path, js_suggested_weight, js_model_params, js_dataedit, json_ajax_txtbox], 
+            inputs=[js_model_type, *model_data_ui_input, js_dataedit, *simpleedit_parms, json_ajax_txtbox], 
             outputs=[js_message_report]
         )
         js_load_civitai_setting_btn.click(ajax_action.get_setting_from_Civitai, 
-            inputs=[js_model_type, js_subtype, js_model_name, js_model_path, js_suggested_weight, js_model_params, js_dataedit, json_ajax_txtbox], 
-            outputs=[js_message_report, js_model_type, js_subtype, js_model_name, js_model_path, js_suggested_weight, js_model_params, js_dataedit, json_ajax_txtbox, js_json_preview]
+            inputs=[js_model_type, *model_data_ui_input, js_dataedit, *simpleedit_parms, json_ajax_txtbox], 
+            outputs=[js_message_report, js_model_type, *model_data_ui_input, js_dataedit, *simpleedit_parms, json_ajax_txtbox, js_json_preview]
         )
         js_load_dreambooth_setting_btn.click(ajax_action.get_setting_from_dreambooth, 
             inputs=[js_db_model_name, js_dataedit], 
@@ -208,7 +236,7 @@ def on_ui_tabs():
         js_update_trigger_words_btn = gr.Button(value="Update Trigger Words", visible=False, elem_id="lorahelp_js_update_trigger_words_btn")
         js_update_trigger_words_btn.click(ajax_action.update_trigger_words, 
             inputs=[js_ajax_txtbox], 
-            outputs=[js_model_type, js_subtype, js_model_name, js_model_path, js_suggested_weight, js_model_params, js_dataedit, json_ajax_txtbox, js_json_preview]
+            outputs=[js_model_type, *model_data_ui_input, js_dataedit, *simpleedit_parms, json_ajax_txtbox, js_json_preview]
         )
 
         js_show_trigger_words_btn = gr.Button(value="Show Trigger Words", visible=False, elem_id="lorahelp_js_show_trigger_words_btn")

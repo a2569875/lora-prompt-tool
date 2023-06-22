@@ -2,6 +2,7 @@ from operator import itemgetter
 import json
 import gradio as gr
 from . import libdata
+from . import ajax_action
 
 source_filename = "dataframe_edit"
 
@@ -184,6 +185,80 @@ def paste_merge_cell(select_json, paste_text, df):
 
     prompt_data[select_index[0]][select_index[1]] = prompt + (", " if need_comma else "") + paste_text
     return prompt_data
+
+def append_empty(df):
+    try:
+        prompt_data = df.values.tolist()
+    except:
+        prompt_data = df
+    if len(df) <= 0:
+        return prompt_data
+    if ("").join(prompt_data[-1]).strip() != "":
+        prompt_data.append(["" for x in prompt_data[-1]])
+    return prompt_data
+
+def get_simple_from_df(df):
+    try:
+        prompt_data = df.values.tolist()
+    except:
+        prompt_data = df
+    main_name : str = ""
+    main_trigger : str = ""
+    has_extra = False
+    extra_name : str = ""
+    extra_trigger : str = ""
+    has_neg = False
+    neg_name : str = ""
+    neg_trigger : str = ""
+    i = 0
+    for prompt_item in prompt_data:
+        if libdata.DEFAULT_KEY in [x.strip() for x in prompt_item[2].split(",")]:
+            if i == 0:
+                main_name = str(prompt_item[0])
+                main_trigger = str(prompt_item[1])
+            elif i == 1:
+                has_extra = True
+                extra_name = str(prompt_item[0])
+                extra_trigger = str(prompt_item[1])
+            else:
+                if ajax_action.flag_to_boolean(prompt_item[3]):
+                    if not has_neg:
+                        has_neg = True
+                        neg_name = str(prompt_item[0])
+                        neg_trigger = str(prompt_item[1])
+            i += 1
+    return main_name, main_trigger, has_extra, extra_name, extra_trigger, has_neg, neg_name, neg_trigger
+
+def save_to_dataframe(df, main_name, main_trigger, has_extra, extra_name, extra_trigger, has_neg, neg_name, neg_trigger):
+    try:
+        prompt_data = df.values.tolist()
+    except:
+        prompt_data = df
+    insert_data = []
+    if main_trigger.strip() != "":
+        insert_data.append([main_name, main_trigger, libdata.DEFAULT_KEY, "Not"])
+    if has_extra and extra_trigger.strip() != "":
+        insert_data.append([extra_name, extra_trigger, libdata.DEFAULT_KEY, "Not"])
+    if has_neg and neg_trigger.strip() != "":
+        insert_data.append([neg_name, neg_trigger, libdata.DEFAULT_KEY, "Yes"])
+    new_prompt_data = []
+    if len(insert_data) > 0:
+        i=0
+        for prompt_item in prompt_data:
+            if libdata.DEFAULT_KEY in [x.strip() for x in prompt_item[2].split(",")]:
+                if i < len(insert_data):
+                    new_prompt_data.append(insert_data[i])
+                i += 1
+            else:
+                if prompt_item[0].strip() != "" and prompt_item[1].strip() != "":
+                    new_prompt_data.append(prompt_item)
+        while i < len(insert_data):
+            new_prompt_data.append(insert_data[i])
+            i += 1
+    else:
+        return prompt_data
+
+    return new_prompt_data
 
 def sort_by_title(order, df):
     """Sort the data in the DataFrame according to the title

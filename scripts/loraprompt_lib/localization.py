@@ -45,11 +45,107 @@ my_localization_data = {
     "ko": "모델 트리거 단어 수정",
     "zh_CN": "编辑模型触发词"
   },
-  "Model type": {
-    "zh_TW": "模型種類",
-    "ja": "モデルタイプ",
-    "ko": "모델 유형",
-    "zh_CN": "模型种类"
+  "Enter your prompt word (trigger word/prompt/negative prompt)": {
+    "zh_TW": "輸入你的提示詞 (觸發詞/提示詞/反向提示詞)",
+    "ja": "プロンプトワードを入力してください (トリガーワード/プロンプト/否定プロンプト)",
+    "ko": "프롬프트 단어 입력(트리거 단어/프롬프트/부정 프롬프트)",
+    "zh_CN": "输入你的提示词 (触发词/提示词/反向提示词)"
+  },
+  "Categorys of prompt": {
+    "zh_TW": "分類",
+    "ja": "カテゴリー",
+    "ko": "카테고리",
+    "zh_CN": "分类"
+  },
+  "Apply data": {
+    "zh_TW": "確定",
+    "ja": "確認する",
+    "ko": "확인하다",
+    "zh_CN": "确定"
+  },
+  "Suggested weight": {
+    "zh_TW": "建議權重",
+    "ja": "推奨モデル重量",
+    "ko": "권장 모델 무게",
+    "zh_CN": "建议权重"
+  },
+  "Sorting": {
+    "zh_TW": "打開排序功能選單",
+    "ja": "ソート機能メニューを開く",
+    "ko": "정렬 기능 메뉴 열기",
+    "zh_CN": "打开排序功能选单"
+  },
+  "Negative prompt: please enter Y if this prompt is a negative prompt.": {
+    "zh_TW": "反向提示詞: 為反向提詞時請輸入Y",
+    "ja": "ネガティブプロンプト: このプロンプトが否定的なプロンプトである場合は、Y を入力してください。",
+    "ko": "부정적인 프롬프트: 이 프롬프트가 부정적인 프롬프트인 경우 Y를 입력하십시오.",
+    "zh_CN": "反向提示词: 为反向提词时请输入Y"
+  },
+  "Translate prompt words into:": {
+    "zh_TW": "將提示詞翻譯為:",
+    "ja": "プロンプトの単語を他の言語に翻訳する: ",
+    "ko": "프롬프트 단어를 다른 언어로 번역: ",
+    "zh_CN": "将提示词翻译为: "
+  },
+  "Easy editing": {
+    "zh_TW": "簡易編輯",
+    "ja": "簡単な編集",
+    "ko": "쉬운 편집",
+    "zh_CN": "一键编辑"
+  },
+  "Advanced editing": {
+    "zh_TW": "進階編輯",
+    "ja": "高度な編集",
+    "ko": "고급 편집",
+    "zh_CN": "高级编辑"
+  },
+  "Additional description": {
+    "zh_TW": "額外描述",
+    "ja": "追加説明",
+    "ko": "추가 설명",
+    "zh_CN": "额外描述"
+  },
+  "Additional description name": {
+    "zh_TW": "額外描述名稱",
+    "ja": "追加説明の名前",
+    "ko": "추가 설명의 이름",
+    "zh_CN": "额外描述名称"
+  },
+  "Description prompt": {
+    "zh_TW": "描述提詞",
+    "ja": "プロンプト",
+    "ko": "설명 프롬프트",
+    "zh_CN": "描述提词"
+  },
+  "Dedicated negative prompt": {
+    "zh_TW": "專用反向提詞",
+    "ja": "専用の否定プロンプト",
+    "ko": "전용 네거티브 프롬프트",
+    "zh_CN": "专用反向提词"
+  },
+  "Dedicated negative prompt name": {
+    "zh_TW": "專用反向提詞名稱",
+    "ja": "専用ネガティブプロンプトの名前",
+    "ko": "전용 네거티브 프롬프트의 이름",
+    "zh_CN": "专用反向提词名称"
+  },
+  "EX: draw a Mahiro": {
+    "zh_TW": "EX: 叫出真尋",
+    "ja": "EX: まひろを描く",
+    "ko": "EX: XXX 그리기",
+    "zh_CN": "EX: 叫出真寻"
+  },
+  "EX: Characteristics of Mahiro": {
+    "zh_TW": "EX: 真尋的特徵",
+    "ja": "EX: ひろの特徴",
+    "ko": "EX: XXX 그리기",
+    "zh_CN": "EX: 真寻的特征"
+  },
+  "EX: negative prompt for Mahiro": {
+    "zh_TW": "EX: 真尋反向提詞",
+    "ja": "EX: まひろに対する否定的なプロンプト",
+    "ko": "EX: XXX에 대한 부정적인 프롬프트",
+    "zh_CN": "EX: 真寻反向提词"
   },
   "Type": {
     "zh_TW": "類別",
@@ -251,9 +347,9 @@ my_localization_data = {
     "zh_CN": "使用触控模式"
   },
   "Model params": {
-    "zh_TW": "模型參數",
+    "zh_TW": "建議的模型參數",
     "ja": "モデルのパラメーター",
-    "zh_CN": "模型参数"
+    "zh_CN": "建议的模型参数"
   }
 }
 

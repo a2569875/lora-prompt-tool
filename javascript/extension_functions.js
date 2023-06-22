@@ -369,7 +369,7 @@ function module_init() {
     
         lorahelper.switch_to_helper_tab();
         lorahelper.close_lora_context_menu();
-    
+        lorahelper.dataedit_search_box.value = "";
         lorahelper.lorahelper_model_image.innerHTML = "";
         let state = {EditTab:false};
         let interval_id = window.setInterval((function(state_obj, bgimg_src){
@@ -391,6 +391,7 @@ function module_init() {
                 preview_model_image.style.height = `${theHeight}px`
                 lorahelper.lorahelper_model_image.appendChild(preview_model_image);
                 lorahelper.gradioApp().getElementById("lorahelp_js_trigger_words_dataframe").querySelector("table").parentElement.style.overflow = "scroll";
+                lorahelper.gradioApp().getElementById("js_tab_adv_edit").parentElement.parentElement.querySelectorAll("button")[0].click();
                 window.clearInterval(interval_id);
             };
         })(state, bgimg), 50);

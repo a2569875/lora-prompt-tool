@@ -16,6 +16,30 @@ function module_init() {
         "ko": "모델 트리거 단어 수정",
         "zh_CN": "编辑模型触发词"
       },
+      "Enter your custom name.": {
+        "zh_TW": "輸入您的自訂名稱",
+        "ja": "カスタム名を入力します。",
+        "ko": "사용자 지정 이름을 입력합니다.",
+        "zh_CN": "将模型触发词保存到模型资料文件中"
+      },
+      "Enter your trigger word. EX: character_name_\\(title of novel\\)": {
+        "zh_TW": "輸入您的觸發提示詞。 EX: 角色名稱_\\(作品名稱\\)",
+        "ja": "トリガーワードを入力してください。 例: キャラクター名_\\(小説のタイトル\\)",
+        "ko": "트리거 단어를 입력하십시오. 예: character_name_\\(소설 제목\\)",
+        "zh_CN": "输入您的触发提示词。 EX: 角色名称_\\(作品名称\\) "
+      },
+      "(optional) separated by commas. EX: Character Name/Style Attributes": {
+        "zh_TW": "(選用) 以逗點分隔。 EX: 角色名稱/風格屬性",
+        "ja": "(オプション) カンマで区切ります。 例: キャラクター名/スタイル属性",
+        "ko": "(선택 사항) 쉼표로 구분합니다. 예: 캐릭터 이름/스타일 속성",
+        "zh_CN": "(可选) 以逗点分隔。 EX: 角色名称/风格属性 "
+      },
+      "It is automatically set to No when adding, and it needs to be changed again": {
+        "zh_TW": "添加時自動設定為否，有需要再改",
+        "ja": "追加時に自動的に「いいえ」に設定されるため、再度変更する必要があります。",
+        "ko": "추가 시 자동으로 No로 설정되며 다시 변경해야 합니다.",
+        "zh_CN": "添加时自动设定为否，有需要再改"
+      },
       "Update the JSON data from user input.": {
         "zh_TW": "從在編輯頁面上做的編輯更新本JSON表格",
         "ja": "ユーザー入力からJSONデータを更新する",
@@ -281,6 +305,7 @@ function module_init() {
                     }
                     //opts["bilingual_localization_dirs"]
                 }
+                lorahelper.translate_ready = true;
                 if(typeof(lorahelper.localizationPromiseResolve) === typeof(lorahelper.noop_func)){
                     lorahelper.localizationPromiseResolve();
                 }

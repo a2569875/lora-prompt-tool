@@ -85,6 +85,7 @@ function module_init() {
                 lorahelper.debug('select_index_text_box_callback callback');
             }
             if(typeof(call_back) === typeof(lorahelper.noop_func))call_back();
+
             //console.log('觀測結束。');
             select_index_text_box_value_lock = false;
         }; })(timeout_id);
@@ -219,6 +220,107 @@ function module_init() {
         event.preventDefault();
     }
     
+    function updateDataeditSearchingBox(){
+        if(lorahelper.lorahelper_dataedit_search_lock){
+            return;
+        }
+        const table_body = lorahelper.gradioApp().getElementById("lorahelp_js_trigger_words_dataframe").querySelector("tbody");
+        const txtbox = lorahelper.gradioApp().getElementById("lorahelp_js_dataframe_filter").querySelector("input, textarea");
+        lorahelper.lorahelper_dataedit_search_lock = true;
+        lorahelper.lorahelper_dataedit_search_text = txtbox.value;
+        let filter = lorahelper.lorahelper_dataedit_search_text.trim();
+        const menu_list = table_body.querySelectorAll('tr');
+        let is_regex = false;
+		if(filter !== ""){
+			if(filter.charAt(filter.length-1) == filter.charAt(0) && filter.charAt(0) == "/" && filter.length >= 2){
+				try {
+					const reg_filter = filter.substring(1, filter.length-1);
+					if(reg_filter !== ""){
+						filter = new RegExp(reg_filter);
+						is_regex = true;
+					}
+				} catch (error) {
+					is_regex = false;
+				}
+			}
+			if(!is_regex){
+				filter = filter.toLowerCase();
+				if(filter.indexOf("\\") > -1){
+					try {
+						filter = lorahelper.unescape_string(filter);
+					} catch (error) {
+						
+					}
+				}
+			}
+		}
+
+        for(const menu_item of menu_list){
+			let flag = false;
+			let rows = menu_item.querySelectorAll('td');
+			if (rows.length <= 0) continue;
+			
+            const find_areas = [
+                rows[0].innerText, 
+                rows[1].innerText, 
+                rows[2].innerText
+            ];
+            for(const find_area of find_areas){
+                if(is_regex){
+                    flag = find_area.toLowerCase().search(filter) > -1
+                } else {
+                    flag = find_area.toLowerCase().indexOf(filter) > -1
+                }
+                if (flag) break;
+            }
+			if(filter === ""){
+				if(/(^|,)\s*##default##\s*(,|$)/.exec(rows[2].innerText)){
+					flag = false;
+				} else {
+					flag = true;
+				}
+			}
+			if(find_areas.join("").trim() === ""){
+				flag = true;
+			}
+			if(rows[0]?.querySelector("span")?.style?.color == "gray"){
+				flag = true;
+			}
+			menu_item.style.display = flag ? "table-row" : "none";
+        }
+        lorahelper.lorahelper_dataedit_search_lock = false;
+    }
+
+    function fill_cell_placeholder(){
+        const table_body = lorahelper.gradioApp().getElementById("lorahelp_js_trigger_words_dataframe").querySelector("tbody");
+        let it=0;
+        let jt=0;
+        for(var i = 0; i < table_body.childNodes.length; ++i){
+            //你不要亂入!
+            if(table_body.childNodes[i].nodeName.toLowerCase() !== 'tr') continue;
+            jt = 0;
+            for(var j = 0; j < table_body.childNodes[i].childNodes.length; ++j){
+                //你不要亂入 x 2!
+                if(table_body.childNodes[i].childNodes[j].nodeName.toLowerCase() !== 'td') continue;
+                const cell = table_body.childNodes[i].childNodes[j];
+				const cell_span = cell.querySelector("span");
+				const datafram_placeholder = [
+					lorahelper.my_getTranslation("Enter your custom name."),
+					lorahelper.my_getTranslation("Enter your trigger word. EX: character_name_\\(title of novel\\)"),
+					lorahelper.my_getTranslation("(optional) separated by commas. EX: Character Name/Style Attributes"),
+					lorahelper.my_getTranslation("It is automatically set to No when adding, and it needs to be changed again")
+				];
+				if(((cell_span?.innerText||"")+"").trim() === ""){
+					if(((datafram_placeholder[jt]||"")+"").trim()!==""){
+						cell_span.innerHTML =`<span style="color: gray;">${datafram_placeholder[jt]}</span>`;
+					}
+				}
+                ++jt
+            }
+            ++it;
+        }
+    }
+
     function calculate_selected_cell(){
         const table_body = lorahelper.gradioApp().getElementById("lorahelp_js_trigger_words_dataframe").querySelector("tbody");
         let it=0;
@@ -272,6 +374,10 @@ function module_init() {
                 cell.setAttribute("onfocusin", "lorahelper.dataframe_infocus(event)");
             }
         }
+        if(lorahelper.translate_ready){
+            fill_cell_placeholder();
+            updateDataeditSearchingBox();
+        }
     }
     
     function dataframe_infocus(event){
@@ -324,6 +430,8 @@ function module_init() {
     lorahelper.dataframe_infocus = dataframe_infocus;
     lorahelper.dataframe_focus_check = dataframe_focus_check;
     lorahelper.setup_dataframe_edit = setup_dataframe_edit;
+    lorahelper.fill_cell_placeholder = fill_cell_placeholder;
+    lorahelper.updateDataeditSearchingBox = updateDataeditSearchingBox;
 
 }
 let module_loadded = false;
