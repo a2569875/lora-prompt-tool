@@ -191,7 +191,7 @@ def append_empty(df):
         prompt_data = df.values.tolist()
     except:
         prompt_data = df
-    if len(df) <= 0:
+    if len(prompt_data) <= 0:
         return prompt_data
     if ("").join(prompt_data[-1]).strip() != "":
         prompt_data.append(["" for x in prompt_data[-1]])
