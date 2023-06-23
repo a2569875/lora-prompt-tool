@@ -1,3 +1,5 @@
+[![Python](https://img.shields.io/badge/Python-%E2%89%A73.10-blue)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/github/license/a2569875/lora-prompt-tool)](https://github.com/a2569875/lora-prompt-tool/blob/main/LICENSE)
 # LoRA Model Prompt Tool
 
 When you have trained many LoRA models, each model usually has its own model prompt, trigger words and usage method. In the past, external tools were needed to record them. This extension can help you save these model prompts and dedicated prompts, and quickly call them up when needed.

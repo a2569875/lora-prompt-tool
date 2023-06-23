@@ -1,3 +1,5 @@
+[![Python](https://img.shields.io/badge/Python-%E2%89%A73.10-blue)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/github/license/a2569875/lora-prompt-tool)](https://github.com/a2569875/lora-prompt-tool/blob/main/LICENSE)
 # LoRA模型觸發詞工具
 
 當你訓練了很多LoRA模型時，每個模型通常都有自己的模型觸發詞和使用方法，以往要使用外部工具來進行記錄
