@@ -329,7 +329,10 @@ onUiLoaded(() => {
                         let img_preview = card.querySelector("img.preview");
                         let tmp_bgimg = "./file=html/card-no-preview.png";
                         if(img_preview){
-                            tmp_bgimg = card.querySelector("img.preview").getAttribute('src') || "./file=html/card-no-preview.png";
+                            tmp_bgimg = card.querySelector("img.preview").getAttribute('src');
+                        }
+                        if(lorahelper.is_empty(tmp_bgimg)){
+                            tmp_bgimg = "./file=html/card-no-preview.png";
                         }
                         bgimg = `url(\"${tmp_bgimg}\")`;
                     }
