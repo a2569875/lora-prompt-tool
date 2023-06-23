@@ -279,8 +279,10 @@ function module_init() {
     
         lorahelper.debug("end show_trigger_words");
     
-        event.stopPropagation();
-        event.preventDefault();
+        if(event){
+            event.stopPropagation();
+            event.preventDefault();
+        }
     }
     
     function add_selected_trigger_word(event, model_type, model_path, addprompt, active_tab_type, overwrite){
@@ -313,8 +315,10 @@ function module_init() {
         lorahelper.close_lora_context_menu();
         lorahelper.debug("end add_selected_trigger_word");
     
-        event.stopPropagation();
-        event.preventDefault();
+        if(event){
+            event.stopPropagation();
+            event.preventDefault();
+        }
     }
     
     function add_selected_neg_trigger_word(event, model_type, model_path, addprompt, active_tab_type, overwrite){
@@ -346,9 +350,10 @@ function module_init() {
     
         lorahelper.close_lora_context_menu();
         lorahelper.debug("end add_selected_neg_trigger_word");
-    
-        event.stopPropagation();
-        event.preventDefault();
+        if(event){
+            event.stopPropagation();
+            event.preventDefault();
+        }
     }
     
     function update_trigger_words(event, model_type, model_path, bgimg){
@@ -398,8 +403,10 @@ function module_init() {
     
         lorahelper.debug("end update_trigger_words");
     
-        event.stopPropagation();
-        event.preventDefault();
+        if(event){
+            event.stopPropagation();
+            event.preventDefault();
+        }
     }
 
     lorahelper.show_trigger_words = show_trigger_words;
