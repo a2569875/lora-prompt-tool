@@ -325,6 +325,14 @@ onUiLoaded(() => {
                     }
                     model_path = model_path.replace(/(\.(bin|pt|safetensors|ckpt))(\s+)?([a-z0-9]+)?$/i, "$1");
                     let bgimg = card.style.backgroundImage || "url(\"./file=html/card-no-preview.png\")";
+                    if(lorahelper.is_empty(card.style.backgroundImage)){
+                        let img_preview = card.querySelector("img.preview");
+                        let tmp_bgimg = "./file=html/card-no-preview.png";
+                        if(img_preview){
+                            tmp_bgimg = card.querySelector("img.preview").getAttribute('src') || "./file=html/card-no-preview.png";
+                        }
+                        bgimg = `url(\"${tmp_bgimg}\")`;
+                    }
                     bgimg = bgimg.replace(/^\s*url\s*\(\s*\"/i, "lorahelper.pass_url(\"");
 
                     card.setAttribute("oncontextmenu",
