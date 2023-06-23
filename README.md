@@ -2,6 +2,8 @@
 
 When you have trained many LoRA models, each model usually has its own model prompt, trigger words and usage method. In the past, external tools were needed to record them. This extension can help you save these model prompts and dedicated prompts, and quickly call them up when needed.
 
+[![buy me a coffee](readme/Artboard.svg)](https://www.buymeacoffee.com/a2569875 "buy me a coffee")
+
 [![LoRA-Prompt-Tool!](https://res.cloudinary.com/marcomontalbano/image/upload/v1683644210/video_to_markdown/images/youtube--QQ9YVjCO_9s-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://www.youtube.com/watch?v=QQ9YVjCO_9s "LoRA-Prompt-Tool!")
 
 # Installation
