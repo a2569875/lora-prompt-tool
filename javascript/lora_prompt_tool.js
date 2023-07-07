@@ -211,9 +211,9 @@ onUiLoaded(() => {
 
             //get active extratab
             let try_to_get_extra_tab = Array.from(get_uiCurrentTabContent().querySelectorAll('.extra-network-cards,.extra-network-thumbs'))
-            if(try_to_get_extra_tab.length <= 0){ //support for kitchen-theme
-                let txt2img_array_tmp = Array.from(lorahelper.gradioApp().querySelector("#txt2img-extra-netwrok-sidebar")?.querySelectorAll('.extra-network-cards,.extra-network-thumbs')||[]);
-                let img2img_array_tmp = Array.from(lorahelper.gradioApp().querySelector("#img2img-extra-netwrok-sidebar")?.querySelectorAll('.extra-network-cards,.extra-network-thumbs')||[]);
+            if(try_to_get_extra_tab.length <= 0){ //support for kitchen-theme and lobe-theme
+                let txt2img_array_tmp = Array.from(lorahelper.gradioApp().querySelector("#txt2img-extra-network-sidebar, #txt2img-extra-netwrok-sidebar")?.querySelectorAll('.extra-network-cards,.extra-network-thumbs')||[]);
+                let img2img_array_tmp = Array.from(lorahelper.gradioApp().querySelector("#img2img-extra-network-sidebar, #img2img-extra-netwrok-sidebar")?.querySelectorAll('.extra-network-cards,.extra-network-thumbs')||[]);
                 try_to_get_extra_tab = txt2img_array_tmp.concat(img2img_array_tmp);
             }
             const active_extra_tab = try_to_get_extra_tab
@@ -414,37 +414,45 @@ onUiLoaded(() => {
             }
         }
     }
-
+    
     //update when tab is changed
-    let all_tabs = lorahelper.gradioApp().querySelectorAll(".tab-nav");
-    if(all_tabs.length <= 0){
-        //support for old version
-        all_tabs = lorahelper.gradioApp().querySelectorAll(".tabs");
-        for (let tab_parent of all_tabs) {
-            all_tab_items = tab_parent.childNodes[0].querySelectorAll("button");
-            for (let the_tab of all_tab_items) {
-                the_tab.addEventListener('click', function(ev) {
-                    (the_tab.querySelector("button")||{addEventListener:()=>false}).addEventListener('click', function(ev) {
+    let all_tabs = lorahelper.gradioApp().querySelectorAll(".tab-nav, .ant-tabs");
+    let tab_search = window.setInterval(function(){
+        if(lorahelper.gradioApp().querySelectorAll(".tab-nav, .ant-tabs").length <= 0 && lorahelper.gradioApp().querySelectorAll(".tabs").length <= 0){
+            return;
+        }
+        all_tabs = lorahelper.gradioApp().querySelectorAll(".tab-nav, .ant-tabs");
+        window.clearInterval(tab_search);
+        if(all_tabs.length <= 0){
+            //support for old version
+            all_tabs = lorahelper.gradioApp().querySelectorAll(".tabs");
+            for (let tab_parent of all_tabs) {
+                all_tab_items = tab_parent.childNodes[0].querySelectorAll("button, .ant-tabs-tab-btn");
+                for (let the_tab of all_tab_items) {
+                    the_tab.addEventListener('click', function(ev) {
+                        (the_tab.querySelector("button, .ant-tabs-tab-btn")||{addEventListener:()=>false}).addEventListener('click', function(ev) {
+                            update_card_for_lorahelper();
+                            return true;
+                        }, false);
                         update_card_for_lorahelper();
                         return true;
                     }, false);
+                }
+            }
+        }else{
+            for (let the_tab of all_tabs) {
+                (the_tab.querySelector("button, .ant-tabs-tab-btn")||{addEventListener:()=>false}).addEventListener('click', function(ev) {
+                    update_card_for_lorahelper();
+                    return true;
+                }, false);
+                the_tab.addEventListener('click', function(ev) {
                     update_card_for_lorahelper();
                     return true;
                 }, false);
             }
         }
-    }else{
-        for (let the_tab of all_tabs) {
-            (the_tab.querySelector("button")||{addEventListener:()=>false}).addEventListener('click', function(ev) {
-                update_card_for_lorahelper();
-                return true;
-            }, false);
-            the_tab.addEventListener('click', function(ev) {
-                update_card_for_lorahelper();
-                return true;
-            }, false);
-        }
-    }
+    },20);
+
     lorahelper.simpleedit_group_extra_enabled = lorahelper.gradioApp().querySelector("#lorahelp_simpleedit_group_extra_enabled input");
     lorahelper.simpleedit_group_extra_body = lorahelper.gradioApp().querySelector("#lorahelp_simpleedit_group_extra_body");
     lorahelper.simpleedit_group_neg_enabled = lorahelper.gradioApp().querySelector("#lorahelp_simpleedit_group_neg_enabled input");
