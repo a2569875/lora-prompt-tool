@@ -6,11 +6,15 @@ When you have trained many LoRA models, each model usually has its own model pro
 
 [![buy me a coffee](readme/Artboard.svg)](https://www.buymeacoffee.com/a2569875 "buy me a coffee")
 
-[![LoRA-Prompt-Tool!](https://res.cloudinary.com/marcomontalbano/image/upload/v1683644210/video_to_markdown/images/youtube--QQ9YVjCO_9s-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://www.youtube.com/watch?v=QQ9YVjCO_9s "LoRA-Prompt-Tool!")
+[![LoRA-Prompt-Tool](https://res.cloudinary.com/marcomontalbano/image/upload/v1687840465/video_to_markdown/images/youtube--MVUNoxjrCzE-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/MVUNoxjrCzE "LoRA-Prompt-Tool")
 
 # Installation
 
-After extracting the extension, copy the "lora-prompt-tool" folder to "\webui\extensions" and restart the webui to complete the installation.
+Go to \[Extensions\] -> \[Install from URL\] in webui and enter the following URL:
+```
+https://github.com/a2569875/lora-prompt-tool.git
+```
+Install and restart to complete installation.
 
 # Features
 
@@ -36,6 +40,9 @@ After extracting the extension, copy the "lora-prompt-tool" folder to "\webui\ex
   - Import from Dreambooth models
   - Import multiple lines of text
 
+  ## Videos
+[![LoRA-Prompt-Tool!](https://res.cloudinary.com/marcomontalbano/image/upload/v1683644210/video_to_markdown/images/youtube--QQ9YVjCO_9s-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://www.youtube.com/watch?v=QQ9YVjCO_9s "LoRA-Prompt-Tool!")
+  
   ## Acknowledgements
 *  [JackEllie's Stable-Siffusion community team](https://discord.gg/TM5d89YNwA) 、 [Youtube channel](https://www.youtube.com/@JackEllie)
 *  [Chinese Wikipedia community team](https://discord.gg/77n7vnu)

@@ -155,7 +155,7 @@ function module_init() {
                                                 const tab_ele = lorahelper.gradioApp().querySelector(`#tab_${active_tab_type}`);
                                                 if(!lorahelper.is_nullptr(tab_ele)){
                                                     const load_size = /^\s*[\[\(\{<]?\s*(\d+)\s*[\*xX,]+\s*(\d+)\s*[\]\)\}>]?\s*$/.exec(image_data.meta.size || image_data.meta.Size);
-                                                    const image_size = {width:parseInt(load_size[1]), height:parseInt(load_size[1])};
+                                                    const image_size = {width:parseInt(load_size[1]), height:parseInt(load_size[2]||load_size[1])};
                                                     const setting_panel = tab_ele.querySelector(`#${active_tab_type}_settings`);
                                                     let sampling_element = setting_panel.querySelector(`#${active_tab_type}_sampling select`);
                                                     let steps_element = setting_panel.querySelector(`#${active_tab_type}_steps`);
