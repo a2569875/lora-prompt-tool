@@ -160,6 +160,12 @@ function module_init() {
         "ko": "（트리거 단어 없음）",
         "zh_CN": "(无触发词)"
       },
+      "CivitAI webpage of model": {
+        "zh_TW": "模型的CivitAI網頁",
+        "ja": "モデルの CivitAI Web ページ",
+        "ko": "모델의 CivitAI 웹 페이지",
+        "zh_CN": "模型的CivitAI网页"
+      },
       "edit prompt words...": {
         "zh_TW": "編輯...",
         "ja": "プロンプトを編集する...",

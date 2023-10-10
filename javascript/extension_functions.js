@@ -26,7 +26,9 @@ function module_init() {
             (function(mouseX, mouseY){return function(response){
                 lorahelper.lorahelper_context_menu_list.innerHTML = "";
                 lorahelper.lorahelper_context_menu_opt.innerHTML = "";
+                lorahelper.lorahelper_context_menu_edit_after.innerHTML = "";
                 let prompt_count = 0;
+                let modelId = null;
                 try{
                     let data = JSON.parse(response);
                     if(!lorahelper.is_nullptr(data)){
@@ -75,6 +77,12 @@ function module_init() {
     
                                     ++prompt_count;
                                 }
+                            }
+                        }
+
+                        if(!lorahelper.is_nullptr(data.modelId)){
+                            if(data.modelId !== ""){
+                                modelId = data.modelId;
                             }
                         }
 
@@ -290,6 +298,13 @@ function module_init() {
                 lorahelper.context_menu_search_box_item.style.display = "block";
                 lorahelper.show_edit_btn();
                 lorahelper.lorahelper_context_menu_edit_btn.setAttribute("onclick", `lorahelper.update_trigger_words(event, '${model_type}', '${model_path}', '${bgimg}')`);
+
+                if (modelId !== null) {
+                    let context_menu_goto_civitai = lorahelper.create_context_menu_button(lorahelper.get_UI_display("CivitAI webpage of model"));
+                    context_menu_goto_civitai.setAttribute("onclick",'window.open("https://civitai.com/models/'+modelId+'", "_blank")');
+                    lorahelper.lorahelper_context_menu_edit_after.appendChild(context_menu_goto_civitai);
+                }
+
                 lorahelper.show_lora_context_menu(mouseX, mouseY);
             }; })(mouseX, mouseY)
         ).sent();

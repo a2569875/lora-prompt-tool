@@ -7,6 +7,8 @@ function module_init() {
     lorahelper.lorahelper_context_menu_search_box = null;
     lorahelper.lorahelper_sub_context_menu = null;
     lorahelper.lorahelper_context_menu_opt = null;
+    lorahelper.lorahelper_context_menu_edit_group = null;
+    lorahelper.lorahelper_context_menu_edit_after = null;
     
     lorahelper.context_menu_list = [];
     lorahelper.context_menu_search_box_item = null;
@@ -394,10 +396,15 @@ function module_init() {
         lorahelper.lorahelper_context_menu.appendChild(lorahelper.context_menu_edit_hr_item);
     
         //編輯按鈕
+        lorahelper.lorahelper_context_menu_edit_group = create_context_menu_group();
+        lorahelper.lorahelper_context_menu.appendChild(lorahelper.lorahelper_context_menu_edit_group);
+
         lorahelper.lorahelper_context_menu_edit_btn = create_context_menu_button(lorahelper.get_UI_display("edit prompt words..."))
         lorahelper.lorahelper_context_menu_edit_btn.classList.add('edit-btn');
-        lorahelper.lorahelper_context_menu.appendChild(lorahelper.lorahelper_context_menu_edit_btn);
-    
+        lorahelper.lorahelper_context_menu_edit_group.appendChild(lorahelper.lorahelper_context_menu_edit_btn);
+
+        lorahelper.lorahelper_context_menu_edit_after = create_context_menu_group();
+        lorahelper.lorahelper_context_menu_edit_group.appendChild(lorahelper.lorahelper_context_menu_edit_after);
         //test
         /*let my_sub = create_context_subset("a", [
             create_context_subset("b", [
