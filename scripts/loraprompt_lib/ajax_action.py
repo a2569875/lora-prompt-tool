@@ -51,9 +51,20 @@ def show_trigger_words(msg):
     model_path = result["model_path"]
 
     model_info = loraprompttool.load_model_info_by_model_path(model_type, model_path)
+    model_bundle = loraprompttool.load_model_bundle_model_path(model_type, model_path)
     #no data
     if not model_info:
-        return ""
+        #has bundle embeding
+        if len(model_bundle) > 0:
+            model_info = {}
+        #no data for this model
+        else:
+            return ""
+    
+    model_info["_bundle_embs"] = []
+    for bundle_emb in model_bundle:
+        model_info["_bundle_embs"].append(bundle_emb)
+
     util.console.end("loading trigger words for context menu")
     #sent to client
     return json.dumps(model_info, indent=4)

@@ -7,6 +7,45 @@ from . import localization
 
 source_filename = "loraprompttool"
 
+def load_model_bundle_model_path(model_type, model_path):
+    """load model bundle embeding by model path
+
+    Parameters
+    ----------
+    model_type
+        model type, you can choose between Checkpoint, TextualInversion, Hypernetwork and LORA
+    model_path
+        model path
+        
+    Returns
+    -------
+    JSON
+        a set contains model bundle embeding
+    """
+    util.console.debug(f"Load model bundle embeding of {model_path} in {model_type}")
+    if model_type not in libdata.folders.keys():
+        util.console.error("unknow model type: " + model_type, f"{source_filename}.load_model_info_by_model_path")
+        return
+    
+    base, ext = os.path.splitext(model_path)
+    model_info_base = base
+    if base[:1] == "/":
+        model_info_base = base[1:]
+
+    model_folder = libdata.folders[model_type]
+    model_safetensor = f"{model_info_base}.safetensors"
+    model_safetensor_path = os.path.join(model_folder, model_safetensor)
+    enb_names = set()
+    if os.path.isfile(model_safetensor_path):
+        import torch
+        import safetensors
+        with safetensors.safe_open(model_safetensor_path, framework="pt", device="cpu") as f:
+            for key in f.keys():
+                if key.split(".", 1)[0] == 'bundle_emb':
+                    enb_names.add(key.split(".")[1])
+    return enb_names
+
+
 def load_model_info_by_model_path(model_type, model_path):
     """load model information JSON file by model path
 

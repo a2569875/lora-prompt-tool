@@ -77,6 +77,23 @@ function module_init() {
                                 }
                             }
                         }
+
+                        if(!lorahelper.is_nullptr(data._bundle_embs)){
+                            for(const _bundle_emb of data._bundle_embs){
+                                if(!lorahelper.is_nullptr(_bundle_emb) && (""+_bundle_emb).trim() !== ""){
+                                    let context_menu_item = lorahelper.create_context_menu_button(`${_bundle_emb} ${lorahelper.my_getTranslation("(bundle embeding)")}`);
+                                    context_menu_item.setAttribute("prompt", _bundle_emb);
+                                    context_menu_item.setAttribute("categorys", "bundle embeding");
+                                    context_menu_item.setAttribute("onclick",
+                                        `lorahelper.add_selected_trigger_word(event, '${model_type}', '${model_path}', ${JSON.stringify(_bundle_emb)}, '${active_tab_type}')`
+                                    );
+                                    lorahelper.lorahelper_context_menu_list.appendChild(context_menu_item);
+    
+                                    ++prompt_count;
+                                }
+                            }
+                        }
+
                         let options_count = 0;
                         if(!lorahelper.is_nullptr(data.weight) || !lorahelper.is_nullptr(data.params)){
                             let select_list = [];
