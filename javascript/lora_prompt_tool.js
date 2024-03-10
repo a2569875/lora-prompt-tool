@@ -301,7 +301,7 @@ onUiLoaded(() => {
 
                     // model_path node
                     // model_path = subfolder path + model name + ext
-                    model_path_node = card.querySelector(".actions .additional .search_term");
+                    model_path_node = card.querySelector(".actions .additional .search_terms");
                     if (!model_path_node){
                         lorahelper.debug("can not find search_term node for cards in " + extra_network_id);
                         continue;
@@ -323,7 +323,11 @@ onUiLoaded(() => {
                         lorahelper.debug("model_name is empty for cards in " + extra_network_id);
                         model_name = "";
                     }
+                    
+                    model_path = model_path.replace('Stable-diffusion\\','\\');
                     model_path = model_path.replace(/(\.(bin|pt|safetensors|ckpt))(\s+)?([a-z0-9]+)?$/i, "$1");
+                    model_path = model_path.replace(/\\/g, '\\\\');
+
                     let bgimg = card.style.backgroundImage || "url(\"./file=html/card-no-preview.png\")";
                     if(lorahelper.is_empty(card.style.backgroundImage)){
                         let img_preview = card.querySelector("img.preview");
@@ -480,11 +484,29 @@ onUiLoaded(() => {
     lorahelper.sorting_group_enabled.addEventListener('click', lorahelper.update_simpleedit_group, false);
     lorahelper.update_simpleedit_group();
     //update when tab refreshed
-    lorahelper.gradioApp().getElementById("txt2img_extra_refresh").addEventListener('click', function(ev) {
+    // lorahelper.gradioApp().getElementById("txt2img_extra_refresh").addEventListener('click', function(ev) {
+    //     update_card_for_lorahelper();
+    //     return true;
+    // }, false);
+    // lorahelper.gradioApp().getElementById("img2img_extra_refresh").addEventListener('click', function(ev) {
+    //     update_card_for_lorahelper();
+    //     return true;
+    // }, false);
+
+    lorahelper.gradioApp().getElementById("txt2img_checkpoints_extra_refresh").addEventListener('click', function(ev) {
         update_card_for_lorahelper();
         return true;
     }, false);
-    lorahelper.gradioApp().getElementById("img2img_extra_refresh").addEventListener('click', function(ev) {
+    lorahelper.gradioApp().getElementById("img2img_checkpoints_extra_refresh").addEventListener('click', function(ev) {
+        update_card_for_lorahelper();
+        return true;
+    }, false);
+
+    lorahelper.gradioApp().getElementById("txt2img_lora_extra_refresh").addEventListener('click', function(ev) {
+        update_card_for_lorahelper();
+        return true;
+    }, false);
+    lorahelper.gradioApp().getElementById("img2img_lora_extra_refresh").addEventListener('click', function(ev) {
         update_card_for_lorahelper();
         return true;
     }, false);
