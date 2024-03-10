@@ -324,9 +324,13 @@ onUiLoaded(() => {
                         model_name = "";
                     }
                     
-                    model_path = model_path.replace('Stable-diffusion\\','\\');
                     model_path = model_path.replace(/(\.(bin|pt|safetensors|ckpt))(\s+)?([a-z0-9]+)?$/i, "$1");
                     model_path = model_path.replace(/\\/g, '\\\\');
+
+                    var slashIndex = model_path.indexOf("\\");
+                    if (slashIndex !== -1) {
+                        model_path = model_path.substring(slashIndex);
+                    }
 
                     let bgimg = card.style.backgroundImage || "url(\"./file=html/card-no-preview.png\")";
                     if(lorahelper.is_empty(card.style.backgroundImage)){
