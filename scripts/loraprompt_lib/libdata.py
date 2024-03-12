@@ -1,6 +1,7 @@
 import modules.scripts as scripts
 from modules import shared as ws
 import os
+import sys
 from enum import Enum
 
 source_filename = "libdata"
@@ -43,6 +44,19 @@ folders = {
 exts = (".bin", ".pt", ".safetensors", ".ckpt")
 info_ext = [".json", ".info", ".civitai.info"]
 vae_suffix = ".vae"
+
+if '--embeddings-dir' in sys.argv:
+    folders['ti'] = sys.argv[sys.argv.index('--embeddings-dir')+1]
+
+if '--hypernetwork-dir' in sys.argv:
+    folders['hyper'] = sys.argv[sys.argv.index('--hypernetwork-dir')+1]
+
+if '--ckpt-dir' in sys.argv:
+    folders['ckp'] = sys.argv[sys.argv.index('--ckpt-dir')+1]
+
+if '--lora-dir' in sys.argv:
+    folders['lora'] = sys.argv[sys.argv.index('--lora-dir')+1]
+
 
 http_state_codes = {
     100 : "Continue",101 : "Switching Protocols",102 : "Processing",103 : "Early Hints",
