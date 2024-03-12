@@ -2,4 +2,49 @@
 [![License](https://img.shields.io/github/license/a2569875/lora-prompt-tool)](https://github.com/a2569875/lora-prompt-tool/blob/main/LICENSE)
 # LoRA Model Prompt Tool
 
-LoRA Model Prompt Tool is my favorite prompt assistant extension, but it hasn't been updated since the dev branch of sd-webui updated new feature 'extra-networks-tree-view' in Jan until the release of version 1.8, so I try do it myself to preliminarily support sd-webui v1.8.
+When you have trained many LoRA models, each model usually has its own model prompt, trigger words and usage method. In the past, external tools were needed to record them. This extension can help you save these model prompts and dedicated prompts, and quickly call them up when needed.
+
+[![buy me a coffee](readme/Artboard.svg)](https://www.buymeacoffee.com/a2569875 "buy me a coffee")
+
+[![LoRA-Prompt-Tool](https://res.cloudinary.com/marcomontalbano/image/upload/v1687840465/video_to_markdown/images/youtube--MVUNoxjrCzE-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://youtu.be/MVUNoxjrCzE "LoRA-Prompt-Tool")
+
+# Installation
+
+Go to \[Extensions\] -> \[Install from URL\] in webui and enter the following URL:
+```
+https://github.com/a2569875/lora-prompt-tool.git
+```
+Install and restart to complete installation.
+
+# Features
+
+* 1. Automatic add trigger words to prompts
+  - Insert prompts at the end of the prompt input box
+  - Insert prompts at the position where there are double commas ",,"
+  - Divided into prompts and reverse prompts
+  - Support txt2img and img2img
+
+* 2. Prompt search/filtering: When there are many prompts for a particular model, you can search/filter the prompts
+  - Supports regex search
+
+* 3. Editing and managing prompts
+  - Dedicated tab for editing prompts
+  - Can add, modify, delete prompts
+  - Supports CivitAI's JSON format
+  - Delete duplicate prompts
+  - Sort prompts
+  - Translate prompts
+
+* 4. Batch import of prompts
+  - Import from Civitai
+  - Import from Dreambooth models
+  - Import multiple lines of text
+
+  ## Videos
+[![LoRA-Prompt-Tool!](https://res.cloudinary.com/marcomontalbano/image/upload/v1683644210/video_to_markdown/images/youtube--QQ9YVjCO_9s-c05b58ac6eb4c4700831b2b3070cd403.jpg)](https://www.youtube.com/watch?v=QQ9YVjCO_9s "LoRA-Prompt-Tool!")
+  
+  ## Acknowledgements
+*  [JackEllie's Stable-Siffusion community team](https://discord.gg/TM5d89YNwA) 、 [Youtube channel](https://www.youtube.com/@JackEllie)
+*  [Chinese Wikipedia community team](https://discord.gg/77n7vnu)
+
+<p align="center"><img src="https://count.getloli.com/get/@sd-webui-lora-prompt-tool.github" alt="sd-webui-lora-prompt-tool"></p>
