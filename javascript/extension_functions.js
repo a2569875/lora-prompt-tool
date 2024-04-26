@@ -4,6 +4,7 @@ function module_init() {
     console.log("[lora-prompt-tool] load extension functions module");
     function show_trigger_words(event, model_type, model_path, model_name, bgimg, active_tab_type){
         lorahelper.debug("start show_trigger_words");
+        model_path_edit = model_path.replace(/\\/g, '\\\\');
     
         //get hidden components of extension 
         let js_show_trigger_words_btn = lorahelper.gradioApp().getElementById("lorahelp_js_show_trigger_words_btn");
@@ -297,7 +298,7 @@ function module_init() {
                 }
                 lorahelper.context_menu_search_box_item.style.display = "block";
                 lorahelper.show_edit_btn();
-                lorahelper.lorahelper_context_menu_edit_btn.setAttribute("onclick", `lorahelper.update_trigger_words(event, '${model_type}', '${model_path}', '${bgimg}')`);
+                lorahelper.lorahelper_context_menu_edit_btn.setAttribute("onclick", `lorahelper.update_trigger_words(event, '${model_type}', '${model_path_edit}', '${bgimg}')`);
 
                 if (modelId !== null) {
                     let context_menu_goto_civitai = lorahelper.create_context_menu_button(lorahelper.get_UI_display("CivitAI webpage of model"));
