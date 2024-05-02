@@ -330,6 +330,11 @@ onUiLoaded(() => {
                     var slashIndex = model_path.indexOf("\\");
                     if (slashIndex !== -1) {
                         model_path = model_path.substring(slashIndex);
+                    } else {
+                        slashIndex = model_path.indexOf("/");
+                        if (slashIndex !== -1) {
+                            model_path = model_path.substring(slashIndex);
+                        }
                     }
 
                     let bgimg = card.style.backgroundImage || "url(\"./file=html/card-no-preview.png\")";
