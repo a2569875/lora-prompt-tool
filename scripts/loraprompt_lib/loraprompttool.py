@@ -29,7 +29,7 @@ def load_model_bundle_model_path(model_type, model_path):
     
     base, ext = os.path.splitext(model_path)
     model_info_base = base
-    if base[:1] == "\\":
+    if base[:1] == "\\" or base[:1] == "/":
         model_info_base = base[1:]
 
     model_folder = libdata.folders[model_type]
@@ -67,9 +67,9 @@ def load_model_info_by_model_path(model_type, model_path):
         return
     
     # model_path = subfolderpath + model name + ext. And it always start with a / even there is no sub folder
-    base, ext = os.path.splitext(model_path) 
+    base, ext = os.path.splitext(model_path)
     model_info_base = base
-    if base[:1] == "\\":
+    if base[:1] == "\\" or base[:1] == "/":
         model_info_base = base[1:]
 
     finded_file = False
