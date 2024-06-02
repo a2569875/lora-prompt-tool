@@ -56,7 +56,7 @@ function module_init() {
                                         context_menu_item.innerHTML += ` (${lorahelper.my_getTranslation("Negative prompt")})`
                                     }
                                     context_menu_item.setAttribute("onclick",
-                                        `${function_name}(event, '${model_type}', '${model_path}', ${JSON.stringify(prompt.prompt)}, '${active_tab_type}')`
+                                        `${function_name}(event, '${model_type}', '${model_path_edit}', ${JSON.stringify(prompt.prompt)}, '${active_tab_type}')`
                                     );
                                     lorahelper.lorahelper_context_menu_list.appendChild(context_menu_item);
     
@@ -72,7 +72,7 @@ function module_init() {
                                     context_menu_item.setAttribute("prompt", prompt);
                                     context_menu_item.setAttribute("categorys", "civitai");
                                     context_menu_item.setAttribute("onclick",
-                                        `lorahelper.add_selected_trigger_word(event, '${model_type}', '${model_path}', ${JSON.stringify(prompt)}, '${active_tab_type}')`
+                                        `lorahelper.add_selected_trigger_word(event, '${model_type}', '${model_path_edit}', ${JSON.stringify(prompt)}, '${active_tab_type}')`
                                     );
                                     lorahelper.lorahelper_context_menu_list.appendChild(context_menu_item);
     
@@ -94,7 +94,7 @@ function module_init() {
                                     context_menu_item.setAttribute("prompt", _bundle_emb);
                                     context_menu_item.setAttribute("categorys", "bundle embeding");
                                     context_menu_item.setAttribute("onclick",
-                                        `lorahelper.add_selected_trigger_word(event, '${model_type}', '${model_path}', ${JSON.stringify(_bundle_emb)}, '${active_tab_type}')`
+                                        `lorahelper.add_selected_trigger_word(event, '${model_type}', '${model_path_edit}', ${JSON.stringify(_bundle_emb)}, '${active_tab_type}')`
                                     );
                                     lorahelper.lorahelper_context_menu_list.appendChild(context_menu_item);
     
@@ -112,7 +112,7 @@ function module_init() {
                                     let select_btn = lorahelper.create_context_menu_button(lorahelper.get_UI_display("Use suggested weight"));
                                 
                                     select_btn.setAttribute("onclick",
-                                            `lorahelper.add_selected_trigger_word(event, '${model_type}', '${model_path}', '${lorahelper.build_hyper_cmd(model_type,model_name,data.weight,"")}', '${active_tab_type}')`
+                                            `lorahelper.add_selected_trigger_word(event, '${model_type}', '${model_path_edit}', '${lorahelper.build_hyper_cmd(model_type,model_name,data.weight,"")}', '${active_tab_type}')`
                                     );
                                     select_list.push(select_btn);
                                 }
@@ -123,7 +123,7 @@ function module_init() {
                                     let select_btn = lorahelper.create_context_menu_button(lorahelper.get_UI_display("Use suggested params"));
                                 
                                     select_btn.setAttribute("onclick",
-                                            `lorahelper.add_selected_trigger_word(event, '${model_type}', '${model_path}', '${lorahelper.build_hyper_cmd(model_type,model_name,1.0,data.params)}', '${active_tab_type}')`
+                                            `lorahelper.add_selected_trigger_word(event, '${model_type}', '${model_path_edit}', '${lorahelper.build_hyper_cmd(model_type,model_name,1.0,data.params)}', '${active_tab_type}')`
                                     );
                                     select_list.push(select_btn);
                                 }
@@ -133,7 +133,7 @@ function module_init() {
                                 if(!lorahelper.is_empty(syntax)){
                                     let select_btn = lorahelper.create_context_menu_button(lorahelper.get_UI_display("Use suggested weight and params"));
                                     select_btn.setAttribute("onclick",
-                                            `lorahelper.add_selected_trigger_word(event, '${model_type}', '${model_path}', '${lorahelper.build_hyper_cmd(model_type,model_name,data.weight,data.params)}', '${active_tab_type}')`
+                                            `lorahelper.add_selected_trigger_word(event, '${model_type}', '${model_path_edit}', '${lorahelper.build_hyper_cmd(model_type,model_name,data.weight,data.params)}', '${active_tab_type}')`
                                     );
                                     select_list.push(select_btn);
                                 }
